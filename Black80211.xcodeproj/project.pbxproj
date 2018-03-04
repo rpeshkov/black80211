@@ -7,15 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A61272262039FD13009DD95B /* Black80211.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A61272252039FD13009DD95B /* Black80211.hpp */; };
-		A61272282039FD13009DD95B /* Black80211.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A61272272039FD13009DD95B /* Black80211.cpp */; };
+		A61272262039FD13009DD95B /* Black80211Control.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A61272252039FD13009DD95B /* Black80211Control.hpp */; };
+		A61272362039FFF1009DD95B /* apple80211_ioctl.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272302039FFF1009DD95B /* apple80211_ioctl.h */; };
+		A61272372039FFF1009DD95B /* IO80211Interface.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272312039FFF1009DD95B /* IO80211Interface.h */; };
+		A61272382039FFF1009DD95B /* IO80211WorkLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272322039FFF1009DD95B /* IO80211WorkLoop.h */; };
+		A61272392039FFF1009DD95B /* apple80211_var.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272332039FFF1009DD95B /* apple80211_var.h */; };
+		A612723A2039FFF1009DD95B /* apple80211_wps.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272342039FFF1009DD95B /* apple80211_wps.h */; };
+		A612723B2039FFF1009DD95B /* IO80211Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272352039FFF1009DD95B /* IO80211Controller.h */; };
+		A612723D203A1079009DD95B /* Black80211Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A612723C203A1079009DD95B /* Black80211Control.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A61272222039FD13009DD95B /* Black80211.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Black80211.kext; sourceTree = BUILT_PRODUCTS_DIR; };
-		A61272252039FD13009DD95B /* Black80211.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Black80211.hpp; sourceTree = "<group>"; };
-		A61272272039FD13009DD95B /* Black80211.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Black80211.cpp; sourceTree = "<group>"; };
+		A61272252039FD13009DD95B /* Black80211Control.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Black80211Control.hpp; sourceTree = "<group>"; };
 		A61272292039FD13009DD95B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A61272302039FFF1009DD95B /* apple80211_ioctl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_ioctl.h; sourceTree = "<group>"; };
+		A61272312039FFF1009DD95B /* IO80211Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211Interface.h; sourceTree = "<group>"; };
+		A61272322039FFF1009DD95B /* IO80211WorkLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211WorkLoop.h; sourceTree = "<group>"; };
+		A61272332039FFF1009DD95B /* apple80211_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_var.h; sourceTree = "<group>"; };
+		A61272342039FFF1009DD95B /* apple80211_wps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_wps.h; sourceTree = "<group>"; };
+		A61272352039FFF1009DD95B /* IO80211Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211Controller.h; sourceTree = "<group>"; };
+		A612723C203A1079009DD95B /* Black80211Control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Black80211Control.cpp; sourceTree = "<group>"; };
+		A6EAD4E3203A1F2F00F18995 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/Kernel.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +47,7 @@
 			children = (
 				A61272242039FD13009DD95B /* Black80211 */,
 				A61272232039FD13009DD95B /* Products */,
+				A6EAD4E2203A1F2F00F18995 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -48,11 +62,33 @@
 		A61272242039FD13009DD95B /* Black80211 */ = {
 			isa = PBXGroup;
 			children = (
-				A61272252039FD13009DD95B /* Black80211.hpp */,
-				A61272272039FD13009DD95B /* Black80211.cpp */,
+				A612722F2039FFC1009DD95B /* apple80211 */,
+				A61272252039FD13009DD95B /* Black80211Control.hpp */,
+				A612723C203A1079009DD95B /* Black80211Control.cpp */,
 				A61272292039FD13009DD95B /* Info.plist */,
 			);
 			path = Black80211;
+			sourceTree = "<group>";
+		};
+		A612722F2039FFC1009DD95B /* apple80211 */ = {
+			isa = PBXGroup;
+			children = (
+				A61272302039FFF1009DD95B /* apple80211_ioctl.h */,
+				A61272332039FFF1009DD95B /* apple80211_var.h */,
+				A61272342039FFF1009DD95B /* apple80211_wps.h */,
+				A61272352039FFF1009DD95B /* IO80211Controller.h */,
+				A61272312039FFF1009DD95B /* IO80211Interface.h */,
+				A61272322039FFF1009DD95B /* IO80211WorkLoop.h */,
+			);
+			path = apple80211;
+			sourceTree = "<group>";
+		};
+		A6EAD4E2203A1F2F00F18995 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A6EAD4E3203A1F2F00F18995 /* Kernel.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -62,7 +98,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A61272262039FD13009DD95B /* Black80211.hpp in Headers */,
+				A61272382039FFF1009DD95B /* IO80211WorkLoop.h in Headers */,
+				A61272392039FFF1009DD95B /* apple80211_var.h in Headers */,
+				A61272362039FFF1009DD95B /* apple80211_ioctl.h in Headers */,
+				A61272372039FFF1009DD95B /* IO80211Interface.h in Headers */,
+				A612723B2039FFF1009DD95B /* IO80211Controller.h in Headers */,
+				A61272262039FD13009DD95B /* Black80211Control.hpp in Headers */,
+				A612723A2039FFF1009DD95B /* apple80211_wps.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +140,6 @@
 				TargetAttributes = {
 					A61272212039FD13009DD95B = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -134,7 +175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A61272282039FD13009DD95B /* Black80211.cpp in Sources */,
+				A612723D203A1079009DD95B /* Black80211Control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,8 +188,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -175,7 +216,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -192,7 +233,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.12;
 			};
 			name = Debug;
 		};
@@ -202,8 +243,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
@@ -230,7 +271,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -240,21 +281,22 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.12;
 			};
 			name = Release;
 		};
 		A612722D2039FD13009DD95B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				INFOPLIST_FILE = Black80211/Info.plist;
 				MODULE_NAME = net.rpeshkov.Black80211;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.rpeshkov.Black80211;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Black80211;
+				SDKROOT = macosx10.12;
+				WARNING_CFLAGS = "-Wno-inconsistent-missing-override";
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Debug;
@@ -262,14 +304,15 @@
 		A612722E2039FD13009DD95B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
 				INFOPLIST_FILE = Black80211/Info.plist;
 				MODULE_NAME = net.rpeshkov.Black80211;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.rpeshkov.Black80211;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Black80211;
+				SDKROOT = macosx10.12;
+				WARNING_CFLAGS = "-Wno-inconsistent-missing-override";
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
