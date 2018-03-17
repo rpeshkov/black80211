@@ -19,9 +19,9 @@ bool Black80211Control::start(IOService *provider) {
     if (!super::start(provider))
         return false;
     
-    fWorkloop = getWorkLoop();
+    fWorkloop = IO80211WorkLoop::workLoop();
     
-//    attachInterface((IONetworkInterface**) &fInterface, /* attach to DLIL = */ true);
+    attachInterface((IONetworkInterface**) &fInterface, /* attach to DLIL = */ true);
     
     registerService();
     
@@ -88,8 +88,6 @@ IOOutputQueue* Black80211Control::createOutputQueue() {
 }
 
 
-
-IOReturn Black80211Control::registerWithPolicyMaker    ( IOService* policyMaker ) {return kIOReturnSuccess;}
 IOReturn Black80211Control::getMaxPacketSize( UInt32 *maxSize ) const { *maxSize = 1500; return kIOReturnSuccess; }
 IOReturn Black80211Control::setPromiscuousMode(IOEnetPromiscuousMode mode) { return kIOReturnSuccess; }
 IOReturn Black80211Control::setMulticastMode(IOEnetMulticastMode mode) { return kIOReturnSuccess; }

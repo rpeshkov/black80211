@@ -340,7 +340,7 @@ public:
     
 #define IOCTL_GET( type, intf, data ) apple80211RequestIoctl( SIOCGA80211, APPLE80211_IOC_##type, intf, (void *)data )
 #define IOCTL_SET( type, intf, data ) apple80211RequestIoctl( SIOCSA80211, APPLE80211_IOC_##type, intf, (void *)data )
-    virtual SInt32 apple80211RequestIoctl( UInt32 req, int type, IO80211Interface * intf, void * data ) = 0;
+    virtual SInt32 apple80211RequestIoctl( UInt32 req, int type, IO80211Interface * intf, void * data );
     
     
     //SInt32 getASSOCIATE_RESULT(IO80211Interface * interface, struct apple80211_assoc_result_data * ard);

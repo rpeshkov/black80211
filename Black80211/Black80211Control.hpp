@@ -26,7 +26,6 @@ public:
     bool start(IOService *provider);
     void stop(IOService *provider);
     virtual IO80211WorkLoop* getWorkLoop();
-    IOReturn        registerWithPolicyMaker ( IOService* policyMaker );
     SInt32          apple80211RequestIoctl  ( UInt32 request_type, int request_number, IO80211Interface* interface, void* data );
     IOReturn        apple80211Request_SET   ( int request_number, void* data );
     IOReturn        apple80211Request_GET   ( int request_number, void* data );
@@ -55,39 +54,6 @@ private:
     
 protected:
     IO80211Interface* getInterface();
-//private:
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  0);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  1);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  2);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  3);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  4);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  5);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  6);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  7);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  8);
-//    OSMetaClassDeclareReservedUnused( Black80211Control,  9);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 10);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 11);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 12);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 13);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 14);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 15);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 16);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 17);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 18);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 19);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 20);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 21);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 22);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 23);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 24);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 25);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 26);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 27);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 28);
-//    OSMetaClassDeclareReservedUnused( Black80211Control, 29);
-    
-
 };
 
 #endif
