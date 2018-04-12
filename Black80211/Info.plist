@@ -40,7 +40,7 @@
 	<string>Copyright © 2018 Roman Peshkov. All rights reserved.</string>
     <key>OSBundleLibraries</key>
     <dict>
-        <key>com.apple.iokit.IO80211Family</key>
+        <key>com.apple.iokit.IO80211FamilyV2</key>
         <string>1200.12.2</string>
         <key>com.apple.iokit.IONetworkingFamily</key>
         <string>3.2</string>
@@ -55,5 +55,7 @@
         <key>com.apple.kpi.mach</key>
         <string>16.7</string>
     </dict>
+    <key>OSBundleRequired</key>
+    <string>Network-Root</string>
 </dict>
 </plist>

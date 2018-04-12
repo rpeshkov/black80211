@@ -10,6 +10,7 @@ bool Black80211Control::init(OSDictionary *parameters) {
 }
 
 void Black80211Control::free() {
+    
     super::free();
 }
 
@@ -19,20 +20,49 @@ bool Black80211Control::start(IOService *provider) {
     if (!super::start(provider))
         return false;
     
-    fWorkloop = IO80211WorkLoop::workLoop();
+    fWorkloop = getWorkLoop();
+
+    if (fWorkloop == 0) {
+        IOLog("No workloop!!\n");
+        return false;
+    }
+
+    fCommandGate = IOCommandGate::commandGate(this, (IOCommandGate::Action)tsleepHandler);
+    if (fCommandGate == 0) {
+        IOLog("No command gate!!\n");
+        return false;
+    }
+    fWorkloop->addEventSource(fCommandGate);
+
     
     attachInterface((IONetworkInterface**) &fInterface, /* attach to DLIL = */ true);
-    
-    registerService();
+//    registerService();
+
     
     return true;
 }
 
 void Black80211Control::stop(IOService *provider) {
+    if (fCommandGate) {
+        if (fWorkloop) {
+            fWorkloop->removeEventSource(fCommandGate);
+        }
+        
+        fCommandGate->release();
+        fCommandGate = NULL;
+    }
+    
     if (fWorkloop) {
         fWorkloop->release();
         fWorkloop = NULL;
     }
+    
+    if (fOutputQueue) {
+        fOutputQueue->release();
+        fOutputQueue = NULL;
+    }
+    
+    detachInterface((IONetworkInterface *)fInterface);
     
     super::stop(provider);
 }
@@ -66,6 +96,10 @@ IOReturn Black80211Control::apple80211Request_GET(int request_number, void* data
 }
 
 IO80211WorkLoop* Black80211Control::getWorkLoop() {
+    if (!fWorkloop) {
+        fWorkloop = IO80211WorkLoop::workLoop();
+    }
+    
     return fWorkloop;
 }
 
@@ -97,5 +131,22 @@ SInt32   Black80211Control::monitorModeSetEnabled(IO80211Interface* interface, b
 const OSString*    Black80211Control::newVendorString    ( ) const    { return OSString::withCString("Voodoo(R)"); }
 const OSString*    Black80211Control::newModelString        ( ) const    { return OSString::withCString("Wireless Device(TM)"); }
 const OSString*    Black80211Control::newRevisionString    ( ) const    { return OSString::withCString("1.0"); }
+
+IOReturn Black80211Control::registerWithPolicyMaker
+( IOService* policyMaker )
+{
+    static IOPMPowerState powerStateArray[ 2 ] = {
+        { 1,0,0,0,0,0,0,0,0,0,0,0 },
+        { 1,kIOPMDeviceUsable,kIOPMPowerOn,kIOPMPowerOn,0,0,0,0,0,0,0,0 }
+    };
+    return policyMaker->registerPowerDriver( this, powerStateArray, 2 );
+}
+
+
+IOReturn Black80211Control::tsleepHandler(OSObject* owner, void* arg0 = 0, void* arg1 = 0, void* arg2 = 0, void* arg3 = 0) {
+    
+    return kIOReturnSuccess;
+
+}
 
 

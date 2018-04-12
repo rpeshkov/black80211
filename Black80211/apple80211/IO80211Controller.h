@@ -121,270 +121,162 @@ class IO80211Controller : public IOEthernetController
     OSDeclareAbstractStructors( IO80211Controller )
     
 #ifdef IO80211_LEGACY_COMPAT
-private:
-    struct apple80211_assoc_data    _lastAssocData;
-    bool                            _interferenceRobustness;
-    IO80211Scanner                    *_scanner;
-    WepNetwork                        _lastLegacyAssocInfo;
-    
-public:
-    /* Removed in SL:
-     IOReturn newUserClient( task_t owningTask, void * securityID, UInt32 type,
-     OSDictionary * properties, IOUserClient ** handler );
-     */
-//    IOReturn queueCommand( UInt8 commandCode, void *arguments, void *returnValue );
-//    static IOReturn execCommand( OSObject * obj, void *field0, void *field1, void *field2, void *field3 );
-    
-//    SInt32 getLastAssocData( struct apple80211_assoc_data * ad);
-//    SInt32 setLastAssocData( struct apple80211_assoc_data * ad);
-    
-//    IOReturn getLastLegacyAssocInfo(WepNetworkPtr netPtr );
-//    IOReturn setLastLegacyAssocInfo(WepNetworkPtr netPtr );
-    
-//    bool getInterferenceRobustness()            { return _interferenceRobustness; }
-//    void setInterferenceRobustness(bool flag)    { _interferenceRobustness = flag; }
-//
-//    IO80211Scanner *getScanner()                { return _scanner; }
-//    void setScanner(IO80211Scanner *scanner)    { _scanner = scanner; }
+    //    private:
+    //        struct apple80211_assoc_data    _lastAssocData;
+    //        bool                            _interferenceRobustness;
+    //        IO80211Scanner                    *_scanner;
+    //        WepNetwork                        _lastLegacyAssocInfo;
+    //
+    //    public:
+    //        /* Removed in SL:
+    //         IOReturn newUserClient( task_t owningTask, void * securityID, UInt32 type,
+    //                        OSDictionary * properties, IOUserClient ** handler );
+    //         */
+    //        IOReturn queueCommand( UInt8 commandCode, void *arguments, void *returnValue );
+    //        static IOReturn execCommand( OSObject * obj, void *field0, void *field1, void *field2, void *field3 );
+    //
+    //        SInt32 getLastAssocData( struct apple80211_assoc_data * ad);
+    //        SInt32 setLastAssocData( struct apple80211_assoc_data * ad);
+    //
+    //        IOReturn getLastLegacyAssocInfo(WepNetworkPtr netPtr );
+    //        IOReturn setLastLegacyAssocInfo(WepNetworkPtr netPtr );
+    //
+    //        bool getInterferenceRobustness()            { return _interferenceRobustness; }
+    //        void setInterferenceRobustness(bool flag)    { _interferenceRobustness = flag; }
+    //
+    //        IO80211Scanner *getScanner()                { return _scanner; }
+    //        void setScanner(IO80211Scanner *scanner)    { _scanner = scanner; }
 #endif
     
 public:
+    //    virtual void                free();
+    //    virtual bool                init(OSDictionary * properties);
+    //    virtual bool                start(IOService *provider);
+    //    virtual void                stop(IOService *provider);
+    //    virtual IOService*          getProvider() const;
+    //    virtual IOWorkLoop*         getWorkLoop() const;
+    //    virtual IOOutputQueue*      getOutputQueue() const;
+    //    virtual bool                createWorkLoop();
+    //    virtual IOReturn            enable(IONetworkInterface *aNetif);
+    //    virtual IOReturn            disable(IONetworkInterface *aNetif);
+    //protected: virtual bool         attachInterface(IONetworkInterface ** interface, bool doRegister = true);
+protected: virtual              IONetworkInterface *createInterface();
+    //public: virtual bool            configureInterface(IONetworkInterface * netIf);
+    //public: virtual IOReturn        outputStart(IONetworkInterface* netIf, unsigned int val);
+    //public: virtual IOReturn        getHardwareAddress(IOEthernetAddress *addr);
+    //protected: virtual void requestPacketTx(void*, unsigned int) {};
+public: virtual IOReturn        getHardwareAddressForInterface(IO80211Interface *,IOEthernetAddress *);
+    //public: virtual void            inputMonitorPacket( mbuf_t m, UInt32 dlt, void * header, size_t header_len );
+    //public: virtual int             outputRaw80211Packet( IO80211Interface * interface, mbuf_t m )    { return ENXIO; }
+    //public: virtual int             outputActionFrame( IO80211Interface * interface, mbuf_t m ) {return ENXIO;}
+    //public: virtual int             bpfOutputPacket(OSObject* owner,unsigned long,mbuf_t m) { return ENXIO; }
+public: virtual SInt32              monitorModeSetEnabled( IO80211Interface * interface, bool enabled, unsigned int dlt ) {return ENXIO; }
+public: virtual IO80211Interface    *getNetworkInterface();
+public: virtual    SInt32                apple80211_ioctl(IO80211Interface    *interface,
+                                                          IO80211VirtualInterface *vap,
+                                                          ifnet_t            ifn,
+                                                          unsigned long            cmd,
+                                                          void                *data);
+public: virtual    SInt32                apple80211_ioctl(IO80211Interface    *interface,
+                                                          ifnet_t            ifn,
+                                                          unsigned long            cmd,
+                                                          void                *data);
+public: virtual SInt32    apple80211VirtualRequest(UInt32, int, IO80211VirtualInterface *,void *) { return EOPNOTSUPP; }
+public: virtual SInt32    stopDMA() { return EOPNOTSUPP; }
     
-    /*! @function init
-     @abstract ???.
-     @result ???.
-     */
-    virtual bool init(OSDictionary * properties);
+public: virtual UInt32    hardwareOutputQueueDepth( IO80211Interface * interface )    { return 0; }
+public: virtual SInt32    performCountryCodeOperation( IO80211Interface * interface, IO80211CountryCodeOp op )    { return EOPNOTSUPP; }
     
-    /*! @function free
-     @abstract ???.
-     @result ???.
-     */
-    virtual void free();
+    virtual bool    useAppleRSNSupplicant( IO80211Interface * interface ) { return true; }
     
-    /*! @function start
-     @abstract ???.
-     @param provider ???.
-     @result Returns true on success, false otherwise.
-     */
-    virtual bool start(IOService *provider);
+    virtual bool    useAppleRSNSupplicant( IO80211VirtualInterface * interface ) { return true; }
     
-    /*! @function stop
-     @abstract ???.
-     @param provider ???.
-     */
-    virtual void stop(IOService *provider);
-    
-//    /*! @function getProvider
-//     @abstract ???.
-//     @result ???.
-//     */
-//    virtual IOService *getProvider() const;
-    
-    
-//    /*! @function getWorkLoop
-//     @abstract ???.
-//     @result ???.
-//     */
-//    virtual IOWorkLoop *getWorkLoop() const;
-    
-//    virtual const char* stringFromReturn(int);
-//    virtual int errnoFromReturn(int);
-    
-    /*! @function getOutputQueue
-     @abstract ???.
-     @param ???.
-     @result Returns ???.
-     */
-//    virtual IOOutputQueue *getOutputQueue() const;
-    
-    /*! @function createWorkLoop
-     @abstract ???.
-     @result ???.
-     */
-//    virtual bool createWorkLoop();
-    
-    /*! @function enable
-     @abstract ???.
-     @param aNetif ???.
-     @result Returns ???.
-     */
-//    virtual IOReturn enable(IONetworkInterface *aNetif);
-    
-    /*! @function disable
-     @abstract ???.
-     @param aNetif ???.
-     @result Returns ???.
-     */
-//    virtual IOReturn disable(IONetworkInterface *aNetif);
-    
-//    virtual bool attachInterface(IONetworkInterface **interface, bool doRegister = true);
-    
-//    virtual IONetworkInterface *createInterface();
-    
-    /*! @function configureInterface
-     @abstract Configures a newly created network interface object.
-     @discussion This method configures an interface object that was created by
-     createInterface(). Subclasses can override this method to customize
-     and examine the interface object that will be attached to the
-     controller as a client.
-     @param interface The interface object to be configured.
-     @result Returns true if the operation was successful, false otherwise
-     (this will cause attachInterface() to fail and return 0).
-     */
-//     virtual bool configureInterface(IONetworkInterface * netIf);
-    
-    /*! @function outputStart
-     @abstract ???.
-     @result ???.
-     */
-    virtual IOReturn outputStart(IONetworkInterface* netIf, unsigned int val);
-    
-    /*! @function getHardwareAddress
-     @abstract Gets the 80211 controller's station address.
-     @discussion The default implementation of the abstract method inherited from IONetworkController. This method will call the overloaded form IO80211Controller::getHardwareAddress() that subclasses are expected to override.
-     @param addr The buffer where the controller's hardware address should be written.
-     @param inOutAddrBytes The size of the address buffer provided by the client, and replaced by this method with the actual size of the hardware address in bytes.
-     @result Returns kIOReturnSuccess on success, or an error otherwise.
-     */
-//    virtual IOReturn getHardwareAddress(IOEthernetAddress *addr);
-    
-    /*! @function requestPacketTx
-     @abstract ???.
-     @result ???.
-     */
-    virtual void requestPacketTx(void*, unsigned int);
-    
-    /* Added in SL: */
-    virtual IOReturn getHardwareAddressForInterface(IO80211Interface *, IOEthernetAddress *);
-    
-    /*! @function inputMonitorPacket
-     @abstract ???.
-     @param m ???.
-     */
-    virtual void inputMonitorPacket(mbuf_t m, UInt32 dlt, void * header, size_t header_len);
-    
-    /*! @function outputRaw80211Packet
-     @abstract ???.
-     @param m ???.
-     */
-    virtual int outputRaw80211Packet(IO80211Interface * interface, mbuf_t m);
-    virtual int outputActionFrame(IO80211Interface * interface, mbuf_t m);
-    virtual int bpfOutputPacket(OSObject* owner, unsigned int, mbuf_t m);
-    
-    /*! @function monitorModeSetEnabled
-     @abstract ???.
-     @result Returns ???.
-     */
-    virtual SInt32 monitorModeSetEnabled(IO80211Interface * interface, bool enabled, unsigned int dlt) {return ENXIO; }
-
-    /*! @function getNetworkInterface
-     @abstract ???.
-     @result Returns ???.
-     */
-    virtual IO80211Interface *getNetworkInterface();
-    
-    /*! @function apple80211_ioctl
-     @abstract ???.
-     @param interface ???.
-     @param ifn ???.
-     @param cmd ???.
-     @param data ???.
-     @result Returns ???.
-     */
-    virtual SInt32 apple80211_ioctl(IO80211Interface *interface, IO80211VirtualInterface *vap, ifnet_t ifn,
-                                                      unsigned long cmd, void *data);
-    
-    virtual SInt32 apple80211_ioctl(IO80211Interface *interface, ifnet_t ifn, unsigned long cmd, void *data);
-    
-    /* newly added for Lion: */
-    virtual SInt32 apple80211VirtualRequest(UInt32, int, IO80211VirtualInterface *, void *) { return EOPNOTSUPP; }
-    virtual SInt32 stopDMA() { return EOPNOTSUPP; }
-    
-    // Output queue introspection
-    virtual UInt32 hardwareOutputQueueDepth(IO80211Interface* interface) { return 0; }
-    
-    // For control of country code settings
-    virtual SInt32 performCountryCodeOperation(IO80211Interface* interface, IO80211CountryCodeOp op) { return EOPNOTSUPP; }
-    
-    virtual bool useAppleRSNSupplicant(IO80211Interface * interface) { return true; }
-    
-    virtual bool useAppleRSNSupplicant(IO80211VirtualInterface * interface) { return true; }
-    
-    
-    virtual SInt32 enableFeature(IO80211FeatureCode feature, void * refcon) { return EOPNOTSUPP; }
-    
-    /* New for Lion: */
-    virtual SInt32 setVirtualHardwareAddress(IO80211VirtualInterface *, ether_addr *);
+    virtual void    dataLinkLayerAttachComplete( IO80211Interface * interface );
+    virtual SInt32 enableFeature( IO80211FeatureCode feature, void * refcon ) { return EOPNOTSUPP; }
+    virtual SInt32 setVirtualHardwareAddress(IO80211VirtualInterface *,ether_addr *);
     virtual SInt32 enableVirtualInterface(IO80211VirtualInterface *);
     virtual SInt32 disableVirtualInterface(IO80211VirtualInterface *);
+    //    virtual bool requiresExplicitMBufRelease() {return false;}
+    //    virtual bool flowIdSupported() {return false;}
+    //    virtual void requestFlowQueue(FlowIdMetadata const*);
+    //    virtual void releaseFlowQueue(IO80211FlowQueue *);
+    //    virtual void selfDiagnosticsReport(int, const char*, unsigned int);
+    //    virtual UInt32 getDataQueueDepth(OSObject *) { return 0;}
     
-    virtual bool requiresExplicitMBufRelease() {return false;}
-    virtual bool flowIdSupported() {return false;}
-    virtual void requestFlowQueue(FlowIdMetadata const*);
-    virtual SInt32 releaseFlowQueue(IO80211FlowQueue *);
-//    virtual SInt32 enableFeatureForLoggingFlags(unsigned long long);
-
-    
-//    virtual void selfDiagnosticsReport(int, const char*, unsigned int);
-//    virtual UInt32 getDataQueueDepth(OSObject *) { return 0;}
-
-    
-    
-    
-    
-    virtual SInt32 apple80211VirtualRequestIoctl(UInt32, int, IO80211VirtualInterface *,void *) { return EOPNOTSUPP; }
-
+    /*! @function getProvider
+     @abstract ???.
+     @result ???.
+     */
+    IOService * getProvider();
     
     /* ioctl handlers */
     
 #define IOCTL_GET( type, intf, data ) apple80211RequestIoctl( SIOCGA80211, APPLE80211_IOC_##type, intf, (void *)data )
 #define IOCTL_SET( type, intf, data ) apple80211RequestIoctl( SIOCSA80211, APPLE80211_IOC_##type, intf, (void *)data )
-    virtual SInt32 apple80211RequestIoctl( UInt32 req, int type, IO80211Interface * intf, void * data );
+    virtual SInt32 apple80211RequestIoctl( UInt32 req, int type, IO80211Interface * intf, void * data ) = 0;
     
+    // SIOCGA80211
     
-    //SInt32 getASSOCIATE_RESULT(IO80211Interface * interface, struct apple80211_assoc_result_data * ard);
+    SInt32 getASSOCIATE_RESULT( IO80211Interface * interface, IO80211VirtualInterface *,
+                               struct apple80211_assoc_result_data * ard );
     
     // Power management methods
-    static IOReturn powerChangeGated(OSObject *owner, void *arg0, void *arg1, void *arg2, void *arg3);
+    static    IOReturn    powerChangeGated( OSObject *owner, void *arg0, void *arg1, void *arg2, void *arg3 );
     
-    void setSleeping(bool sleeping) { _sleeping = sleeping; }
     
-    UInt32 radioCountForInterface(IO80211Interface * interface);
+    
+    void setSleeping( bool sleeping ) { _sleeping = sleeping; }
+    
+    
+    
+    // For control of country code settings
+    
+    
+    
+    
+    UInt32 radioCountForInterface( IO80211Interface * interface );
+    
+    
+    
+    
+    
+    
+    
+    
 protected:
+    
+    
     
     /*! @function powerDownHandler
      @abstract ???.
      @discussion ???.
      */
-    static IOReturn powerChangeHandler(void *target, void *refCon, UInt32 messageType, IOService *service,
-                                       void *messageArgument, vm_size_t argSize);
+    static IOReturn        powerChangeHandler( void *target, void *refCon, UInt32 messageType,
+                                              IOService *service, void *messageArgument, vm_size_t argSize );
+    
+    
+    // mostly internal use, but may need to override
     
     
     
-    virtual void inputPacket(mbuf_t m);
+    virtual void                inputPacket( mbuf_t m );
     
-    virtual SInt32 apple80211_ioctl_get(IO80211Interface *interface, IO80211VirtualInterface* vap, ifnet_t ifn,
-                                        void *data);
+    virtual SInt32                apple80211_ioctl_get(IO80211Interface    *interface,
+                                                       IO80211VirtualInterface* vap,
+                                                       ifnet_t            ifn,
+                                                       void                *data);
     
-    virtual SInt32 apple80211_ioctl_set(IO80211Interface *interface, IO80211VirtualInterface* vap, ifnet_t ifn,
-                                        void *data);
-    
-    
-    
-    
-     // Force a second interface to attach to the same controller
-     virtual bool attachInterfaceWithMacAddress(void* macAddr, UInt32 macLen, IONetworkInterface** interface,
-                                                bool doRegister = true, UInt32 timeout = 5000);
-    
+    virtual SInt32                apple80211_ioctl_set(IO80211Interface    *interface,
+                                                       IO80211VirtualInterface* vap,
+                                                       ifnet_t            ifn,
+                                                       void                *data);
     // New for Lion:
-    virtual IO80211VirtualInterface* createVirtualInterface(ether_addr *addr,unsigned int);
+    virtual IO80211VirtualInterface*    createVirtualInterface(ether_addr *addr,unsigned int);
     virtual bool attachVirtualInterface(IO80211VirtualInterface **,ether_addr *,unsigned int timeout = 5000 /* XXX? */,bool doRegister = true);
-    virtual void detachVirtualInterface(IO80211VirtualInterface *,bool);
-    
+    virtual bool detachVirtualInterface(IO80211VirtualInterface *,bool);
 private:
     
-//    bool forceInterfaceRegistration( IO80211Interface * interface );
+    bool forceInterfaceRegistration( IO80211Interface * interface );
     
     IO80211WorkLoop                *_myWorkLoop;
     IONetworkInterface            *_netIF;
@@ -409,7 +301,6 @@ private:
     OSMetaClassDeclareReservedUnused( IO80211Controller,  7);
     OSMetaClassDeclareReservedUnused( IO80211Controller,  8);
     OSMetaClassDeclareReservedUnused( IO80211Controller,  9);
-//    virtual SInt32 dataLinkLayerAttachComplete(IO80211Interface * interface);
     OSMetaClassDeclareReservedUnused( IO80211Controller, 10);
     OSMetaClassDeclareReservedUnused( IO80211Controller, 11);
     OSMetaClassDeclareReservedUnused( IO80211Controller, 12);
