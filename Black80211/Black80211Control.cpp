@@ -1,5 +1,10 @@
 /* add your code here */
 
+typedef unsigned int ifnet_ctl_cmd_t;
+
+#include "IONetworkInterface.h"
+#include "IONetworkController.h"
+
 #include "Black80211Control.hpp"
 
 OSDefineMetaClassAndStructors(Black80211Control, IO80211Controller);
@@ -53,17 +58,17 @@ IOReturn Black80211Control::getHardwareAddressForInterface(IO80211Interface* net
     return getHardwareAddress(addr);
 }
 
-SInt32 Black80211Control::apple80211RequestIoctl( UInt32 request_type, int request_number, IO80211Interface* interface, void* data ) {
+SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_number, IO80211Interface* interface, void* data ) {
     return kIOReturnSuccess;
 }
 
-IOReturn Black80211Control::apple80211Request_SET(int request_number, void* data) {
-    return kIOReturnSuccess;
-}
+//IOReturn Black80211Control::apple80211Request_SET(int request_number, void* data) {
+//    return kIOReturnSuccess;
+//}
 
-IOReturn Black80211Control::apple80211Request_GET(int request_number, void* data) {
-    return kIOReturnSuccess;
-}
+//IOReturn Black80211Control::apple80211Request_GET(int request_number, void* data) {
+//    return kIOReturnSuccess;
+//}
 
 IO80211WorkLoop* Black80211Control::getWorkLoop() {
     return fWorkloop;

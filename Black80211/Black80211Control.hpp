@@ -12,9 +12,7 @@
 
 #include <IOKit/network/IOGatedOutputQueue.h>
 
-#include "apple80211/IO80211Controller.h"
-#include "apple80211/IO80211WorkLoop.h"
-#include "apple80211/IO80211Interface.h"
+#include "apple80211.h"
 
 class Black80211Control : public IO80211Controller {
     
@@ -26,9 +24,10 @@ public:
     bool start(IOService *provider);
     void stop(IOService *provider);
     virtual IO80211WorkLoop* getWorkLoop();
-    SInt32          apple80211RequestIoctl  ( UInt32 request_type, int request_number, IO80211Interface* interface, void* data );
-    IOReturn        apple80211Request_SET   ( int request_number, void* data );
-    IOReturn        apple80211Request_GET   ( int request_number, void* data );
+    //SInt32          apple80211RequestIoctl  ( UInt32 request_type, int request_number, IO80211Interface* interface, void* data );
+    //IOReturn        apple80211Request_SET   ( int request_number, void* data );
+    //IOReturn        apple80211Request_GET   ( int request_number, void* data );
+    SInt32          apple80211Request  ( UInt32 request_type, int request_number, IO80211Interface* interface, void* data );
     IOReturn        enable           ( IONetworkInterface* aNetif );
     IOReturn        disable          ( IONetworkInterface* aNetif );
     IOOutputQueue*        createOutputQueue    ( );

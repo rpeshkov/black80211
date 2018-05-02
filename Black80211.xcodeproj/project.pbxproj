@@ -15,6 +15,20 @@
 		A612723A2039FFF1009DD95B /* apple80211_wps.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272342039FFF1009DD95B /* apple80211_wps.h */; };
 		A612723B2039FFF1009DD95B /* IO80211Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272352039FFF1009DD95B /* IO80211Controller.h */; };
 		A612723D203A1079009DD95B /* Black80211Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A612723C203A1079009DD95B /* Black80211Control.cpp */; };
+		A6350424209A344100C82B59 /* Black80211Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A612723C203A1079009DD95B /* Black80211Control.cpp */; };
+		A6350425209A344900C82B59 /* apple80211_ioctl.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272302039FFF1009DD95B /* apple80211_ioctl.h */; };
+		A6350426209A344900C82B59 /* apple80211_var.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272332039FFF1009DD95B /* apple80211_var.h */; };
+		A6350427209A344900C82B59 /* apple80211_wps.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272342039FFF1009DD95B /* apple80211_wps.h */; };
+		A6350428209A344900C82B59 /* IO80211Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272352039FFF1009DD95B /* IO80211Controller.h */; };
+		A6350429209A344900C82B59 /* IO80211Interface.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272312039FFF1009DD95B /* IO80211Interface.h */; };
+		A635042A209A344900C82B59 /* IO80211WorkLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = A61272322039FFF1009DD95B /* IO80211WorkLoop.h */; };
+		A635042B209A344900C82B59 /* Black80211Control.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A61272252039FD13009DD95B /* Black80211Control.hpp */; };
+		A6350435209A3CAD00C82B59 /* IO80211WorkLoop.h in Headers */ = {isa = PBXBuildFile; fileRef = A635042F209A3CAC00C82B59 /* IO80211WorkLoop.h */; };
+		A6350436209A3CAD00C82B59 /* apple80211_var.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350430209A3CAC00C82B59 /* apple80211_var.h */; };
+		A6350437209A3CAD00C82B59 /* IO80211Interface.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350431209A3CAC00C82B59 /* IO80211Interface.h */; };
+		A6350438209A3CAD00C82B59 /* apple80211_wps.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350432209A3CAC00C82B59 /* apple80211_wps.h */; };
+		A6350439209A3CAD00C82B59 /* IO80211Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350433209A3CAC00C82B59 /* IO80211Controller.h */; };
+		A635043A209A3CAD00C82B59 /* apple80211_ioctl.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350434209A3CAC00C82B59 /* apple80211_ioctl.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,11 +42,25 @@
 		A61272342039FFF1009DD95B /* apple80211_wps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_wps.h; sourceTree = "<group>"; };
 		A61272352039FFF1009DD95B /* IO80211Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211Controller.h; sourceTree = "<group>"; };
 		A612723C203A1079009DD95B /* Black80211Control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Black80211Control.cpp; sourceTree = "<group>"; };
-		A6EAD4E3203A1F2F00F18995 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/Kernel.framework; sourceTree = DEVELOPER_DIR; };
+		A635042F209A3CAC00C82B59 /* IO80211WorkLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211WorkLoop.h; sourceTree = "<group>"; };
+		A6350430209A3CAC00C82B59 /* apple80211_var.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_var.h; sourceTree = "<group>"; };
+		A6350431209A3CAC00C82B59 /* IO80211Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211Interface.h; sourceTree = "<group>"; };
+		A6350432209A3CAC00C82B59 /* apple80211_wps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_wps.h; sourceTree = "<group>"; };
+		A6350433209A3CAC00C82B59 /* IO80211Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211Controller.h; sourceTree = "<group>"; };
+		A6350434209A3CAC00C82B59 /* apple80211_ioctl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_ioctl.h; sourceTree = "<group>"; };
+		A635043B209A3CC700C82B59 /* apple80211.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = apple80211.h; sourceTree = "<group>"; };
+		A6881FF7209A29A3009B1576 /* Black80211.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Black80211.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A612721E2039FD13009DD95B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6881FF3209A29A3009B1576 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -47,7 +75,6 @@
 			children = (
 				A61272242039FD13009DD95B /* Black80211 */,
 				A61272232039FD13009DD95B /* Products */,
-				A6EAD4E2203A1F2F00F18995 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				A61272222039FD13009DD95B /* Black80211.kext */,
+				A6881FF7209A29A3009B1576 /* Black80211.kext */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,11 +94,21 @@
 				A61272252039FD13009DD95B /* Black80211Control.hpp */,
 				A612723C203A1079009DD95B /* Black80211Control.cpp */,
 				A61272292039FD13009DD95B /* Info.plist */,
+				A635043B209A3CC700C82B59 /* apple80211.h */,
 			);
 			path = Black80211;
 			sourceTree = "<group>";
 		};
 		A612722F2039FFC1009DD95B /* apple80211 */ = {
+			isa = PBXGroup;
+			children = (
+				A635042E209A3C6800C82B59 /* high_sierra */,
+				A635042D209A3C5E00C82B59 /* sierra */,
+			);
+			path = apple80211;
+			sourceTree = "<group>";
+		};
+		A635042D209A3C5E00C82B59 /* sierra */ = {
 			isa = PBXGroup;
 			children = (
 				A61272302039FFF1009DD95B /* apple80211_ioctl.h */,
@@ -80,15 +118,20 @@
 				A61272312039FFF1009DD95B /* IO80211Interface.h */,
 				A61272322039FFF1009DD95B /* IO80211WorkLoop.h */,
 			);
-			path = apple80211;
+			path = sierra;
 			sourceTree = "<group>";
 		};
-		A6EAD4E2203A1F2F00F18995 /* Frameworks */ = {
+		A635042E209A3C6800C82B59 /* high_sierra */ = {
 			isa = PBXGroup;
 			children = (
-				A6EAD4E3203A1F2F00F18995 /* Kernel.framework */,
+				A6350434209A3CAC00C82B59 /* apple80211_ioctl.h */,
+				A6350430209A3CAC00C82B59 /* apple80211_var.h */,
+				A6350432209A3CAC00C82B59 /* apple80211_wps.h */,
+				A6350433209A3CAC00C82B59 /* IO80211Controller.h */,
+				A6350431209A3CAC00C82B59 /* IO80211Interface.h */,
+				A635042F209A3CAC00C82B59 /* IO80211WorkLoop.h */,
 			);
-			name = Frameworks;
+			path = high_sierra;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,22 +141,42 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6350436209A3CAD00C82B59 /* apple80211_var.h in Headers */,
+				A6350439209A3CAD00C82B59 /* IO80211Controller.h in Headers */,
+				A6350435209A3CAD00C82B59 /* IO80211WorkLoop.h in Headers */,
+				A635043A209A3CAD00C82B59 /* apple80211_ioctl.h in Headers */,
 				A61272382039FFF1009DD95B /* IO80211WorkLoop.h in Headers */,
 				A61272392039FFF1009DD95B /* apple80211_var.h in Headers */,
 				A61272362039FFF1009DD95B /* apple80211_ioctl.h in Headers */,
 				A61272372039FFF1009DD95B /* IO80211Interface.h in Headers */,
 				A612723B2039FFF1009DD95B /* IO80211Controller.h in Headers */,
+				A6350437209A3CAD00C82B59 /* IO80211Interface.h in Headers */,
 				A61272262039FD13009DD95B /* Black80211Control.hpp in Headers */,
+				A6350438209A3CAD00C82B59 /* apple80211_wps.h in Headers */,
 				A612723A2039FFF1009DD95B /* apple80211_wps.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6881FF4209A29A3009B1576 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6350425209A344900C82B59 /* apple80211_ioctl.h in Headers */,
+				A6350426209A344900C82B59 /* apple80211_var.h in Headers */,
+				A6350427209A344900C82B59 /* apple80211_wps.h in Headers */,
+				A6350428209A344900C82B59 /* IO80211Controller.h in Headers */,
+				A6350429209A344900C82B59 /* IO80211Interface.h in Headers */,
+				A635042A209A344900C82B59 /* IO80211WorkLoop.h in Headers */,
+				A635042B209A344900C82B59 /* Black80211Control.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A61272212039FD13009DD95B /* Black80211 */ = {
+		A61272212039FD13009DD95B /* Black80211_Sierra */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A612722C2039FD13009DD95B /* Build configuration list for PBXNativeTarget "Black80211" */;
+			buildConfigurationList = A612722C2039FD13009DD95B /* Build configuration list for PBXNativeTarget "Black80211_Sierra" */;
 			buildPhases = (
 				A612721D2039FD13009DD95B /* Sources */,
 				A612721E2039FD13009DD95B /* Frameworks */,
@@ -124,9 +187,27 @@
 			);
 			dependencies = (
 			);
-			name = Black80211;
+			name = Black80211_Sierra;
 			productName = Black80211;
 			productReference = A61272222039FD13009DD95B /* Black80211.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+		A6881FF6209A29A3009B1576 /* Black80211_HighSierra */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A6881FFE209A29A4009B1576 /* Build configuration list for PBXNativeTarget "Black80211_HighSierra" */;
+			buildPhases = (
+				A6881FF2209A29A3009B1576 /* Sources */,
+				A6881FF3209A29A3009B1576 /* Frameworks */,
+				A6881FF4209A29A3009B1576 /* Headers */,
+				A6881FF5209A29A3009B1576 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Black80211_HighSierra;
+			productName = Black80211_HighSierra;
+			productReference = A6881FF7209A29A3009B1576 /* Black80211.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 /* End PBXNativeTarget section */
@@ -135,11 +216,15 @@
 		A61272192039FD13009DD95B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Roman Peshkov";
 				TargetAttributes = {
 					A61272212039FD13009DD95B = {
 						CreatedOnToolsVersion = 9.2;
+					};
+					A6881FF6209A29A3009B1576 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -155,13 +240,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A61272212039FD13009DD95B /* Black80211 */,
+				A61272212039FD13009DD95B /* Black80211_Sierra */,
+				A6881FF6209A29A3009B1576 /* Black80211_HighSierra */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		A61272202039FD13009DD95B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6881FF5209A29A3009B1576 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -176,6 +269,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A612723D203A1079009DD95B /* Black80211Control.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A6881FF2209A29A3009B1576 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6350424209A344100C82B59 /* Black80211Control.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +297,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -203,6 +305,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -222,6 +325,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
+					"__PRIVATE_SPI__=1",
 					"$(inherited)",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -230,10 +334,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -251,6 +355,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -258,6 +363,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -273,15 +379,16 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "__PRIVATE_SPI__=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx10.12;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -289,8 +396,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Sierra/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"__PRIVATE_SPI__=1",
+					"$(inherited)",
+					"SIERRA=1",
+				);
 				INFOPLIST_FILE = Black80211/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MODULE_NAME = net.rpeshkov.Black80211;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.rpeshkov.Black80211;
@@ -305,14 +420,76 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/Sierra/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"__PRIVATE_SPI__=1",
+					"SIERRA=1",
+				);
 				INFOPLIST_FILE = Black80211/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MODULE_NAME = net.rpeshkov.Black80211;
 				MODULE_VERSION = 1.0.0d1;
 				PRODUCT_BUNDLE_IDENTIFIER = net.rpeshkov.Black80211;
 				PRODUCT_NAME = Black80211;
 				SDKROOT = macosx10.12;
+				WARNING_CFLAGS = (
+					"-Wno-inconsistent-missing-override",
+					"-D__PRIVATE_SPI__",
+				);
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+		A6881FFF209A29A4009B1576 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/HighSierra/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEVELOPMENT_TEAM = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"__PRIVATE_SPI__=1",
+					"$(inherited)",
+					"HIGH_SIERRA=1",
+				);
+				INFOPLIST_FILE = Black80211/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULE_NAME = net.rpeshkov.Black80211;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_BUNDLE_IDENTIFIER = net.rpeshkov.Black80211;
+				PRODUCT_NAME = Black80211;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				WARNING_CFLAGS = "-Wno-inconsistent-missing-override";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		A6882000209A29A4009B1576 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/HighSierra/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				DEVELOPMENT_TEAM = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"__PRIVATE_SPI__=1",
+					"HIGH_SIERRA=1",
+				);
+				INFOPLIST_FILE = Black80211/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULE_NAME = net.rpeshkov.Black80211;
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_BUNDLE_IDENTIFIER = net.rpeshkov.Black80211;
+				PRODUCT_NAME = Black80211;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				WARNING_CFLAGS = (
+					"-Wno-inconsistent-missing-override",
+					"-D__PRIVATE_SPI__",
+				);
 				WRAPPER_EXTENSION = kext;
 			};
 			name = Release;
@@ -329,11 +506,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A612722C2039FD13009DD95B /* Build configuration list for PBXNativeTarget "Black80211" */ = {
+		A612722C2039FD13009DD95B /* Build configuration list for PBXNativeTarget "Black80211_Sierra" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A612722D2039FD13009DD95B /* Debug */,
 				A612722E2039FD13009DD95B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A6881FFE209A29A4009B1576 /* Build configuration list for PBXNativeTarget "Black80211_HighSierra" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6881FFF209A29A4009B1576 /* Debug */,
+				A6882000209A29A4009B1576 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

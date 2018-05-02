@@ -4,7 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Black80211.xcscheme</key>
+		<key>Black80211_HighSierra.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Black80211_Sierra.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -13,6 +18,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>A61272212039FD13009DD95B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A6881FF6209A29A3009B1576</key>
 		<dict>
 			<key>primary</key>
 			<true/>
