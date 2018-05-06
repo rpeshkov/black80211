@@ -14,6 +14,8 @@
 
 #include "apple80211.h"
 
+#include "FakeDevice.hpp"
+
 class Black80211Control : public IO80211Controller {
     
     OSDeclareDefaultStructors(Black80211Control)
@@ -45,11 +47,18 @@ public:
     
     
 private:
+    IOReturn getPOWER(IO80211Interface *interface, struct apple80211_power_data *pd);
+    IOReturn setPOWER(IO80211Interface *interface, struct apple80211_power_data *pd);
+    IOReturn getCARD_CAPABILITIES(IO80211Interface *interface, struct apple80211_capability_data *cd);
+
+    
     IO80211WorkLoop *fWorkloop;
     IO80211Interface* fInterface;
     IOGatedOutputQueue* fOutputQueue;
     IOCommandGate*        fCommandGate;
     IOTimerEventSource*     fTimer;
+    
+    FakeDevice *dev;
     
 protected:
     IO80211Interface* getInterface();

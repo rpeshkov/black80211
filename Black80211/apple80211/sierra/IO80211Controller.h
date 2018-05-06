@@ -11,6 +11,7 @@
 
 #include <IOKit/network/IOEthernetController.h>
 
+#include <sys/kpi_mbuf.h>
 #include <sys/param.h>
 #include <net/bpf.h>
 
