@@ -79,6 +79,50 @@ SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_nu
     bool isGet = (request_type == SIOCGA80211);
     
     switch (request_number) {
+        case APPLE80211_IOC_HARDWARE_VERSION:
+            if (isGet) {
+                ret = getHARDWARE_VERSION(interface, (apple80211_version_data *)data);
+            }
+            break;
+        case APPLE80211_IOC_DRIVER_VERSION:
+            if (isGet) {
+                ret = getDRIVER_VERSION(interface, (apple80211_version_data *)data);
+            }
+            break;
+        case APPLE80211_IOC_LOCALE:
+            if (isGet) {
+                ret = getLOCALE(interface, (apple80211_locale_data *)data);
+            }
+            
+            break;
+        case APPLE80211_IOC_COUNTRY_CODE:
+            if (isGet) {
+                ret = getCOUNTRY_CODE(interface, (apple80211_country_code_data *)data);
+            }
+            
+            break;
+        case APPLE80211_IOC_PHY_MODE:
+            if (isGet) {
+                ret = getPHY_MODE(interface, (apple80211_phymode_data *)data);
+            }
+            break;
+        case APPLE80211_IOC_SUPPORTED_CHANNELS:
+            if (isGet) {
+                ret = getSUPPORTED_CHANNELS(interface, (apple80211_sup_channel_data *)data);
+            }
+            break;
+        case APPLE80211_IOC_OP_MODE:
+            if (isGet) {
+                ret = getOP_MODE(interface, (struct apple80211_opmode_data *)data);
+            }
+        case APPLE80211_IOC_SSID:
+            if (isGet) {
+//                ret = getSSID(interface, (struct apple80211_ssid_data *)data);
+            }
+        case APPLE80211_IOC_STATE:
+            if (isGet) {
+                ret = getSTATE(interface, (struct apple80211_state_data *)data);
+            }
         case APPLE80211_IOC_POWER:
             if( isGet ) {
                 ret = getPOWER(interface, (struct apple80211_power_data *)data);
@@ -168,4 +212,82 @@ IOReturn Black80211Control::getCARD_CAPABILITIES(IO80211Interface *interface, st
     return kIOReturnSuccess;
 }
 
+IOReturn Black80211Control::getSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd) {
+    if (!sd) {
+        return kIOReturnSuccess;
+    }
+    memset(sd, 0, sizeof(*sd));
+    sd->version = APPLE80211_VERSION;
+    strncpy((char*)sd->ssid_bytes, "anetwork", sizeof(sd->ssid_bytes));
+    sd->ssid_len = (UInt32)strlen("anetwork");
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getSTATE(IO80211Interface *interface, struct apple80211_state_data *sd) {
+    if (!sd) {
+        return kIOReturnSuccess;
+    }
+    sd->version = APPLE80211_VERSION;
+    sd->state = APPLE80211_S_INIT;
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getOP_MODE(IO80211Interface *interface, struct apple80211_opmode_data *od) {
+    if (!od) {
+        return kIOReturnSuccess;
+    }
+    od->version = APPLE80211_VERSION;
+    od->op_mode = APPLE80211_M_STA;
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getSUPPORTED_CHANNELS(IO80211Interface *interface, apple80211_sup_channel_data *ad) {
+    ad->version = APPLE80211_VERSION;
+    ad->num_channels = 13;
+    
+    int i;
+    for(i=1; i<=ad->num_channels; i++) {
+        ad->supported_channels[i-1].version = APPLE80211_VERSION;
+        ad->supported_channels[i-1].channel = i;
+        ad->supported_channels[i-1].flags   = APPLE80211_C_FLAG_2GHZ;
+    }
+    
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getHARDWARE_VERSION(IO80211Interface *interface, struct apple80211_version_data *hv) {
+    hv->version = APPLE80211_VERSION;
+    strncpy(hv->string, "Ferrum 0", sizeof(hv->string));
+    hv->string_len = strlen("Ferrum 0");
+    
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getDRIVER_VERSION(IO80211Interface *interface, struct apple80211_version_data *hv) {
+    hv->version = APPLE80211_VERSION;
+    strncpy(hv->string, "Version 0.0", sizeof(hv->string));
+    hv->string_len = strlen("Version 0.0");
+    
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getLOCALE(IO80211Interface *interface, apple80211_locale_data *ld) {
+    ld->version = APPLE80211_VERSION;
+    ld->locale  = APPLE80211_LOCALE_FCC;
+    
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getCOUNTRY_CODE(IO80211Interface *interface, apple80211_country_code_data *cd) {
+    cd->version = APPLE80211_VERSION;
+    strncpy((char*)cd->cc, "cz", sizeof(cd->cc));
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getPHY_MODE(IO80211Interface *interface, apple80211_phymode_data *pd) {
+    pd->version = APPLE80211_VERSION;
+    pd->phy_mode = APPLE80211_MODE_11A | APPLE80211_MODE_11B | APPLE80211_MODE_11G;
+    pd->active_phy_mode = APPLE80211_MODE_11B;
+    return kIOReturnSuccess;
+}
 
