@@ -73,70 +73,61 @@ SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_nu
 
     IOReturn ret = 0;
     
-    IOLog("Black80211: IOCTL t=%u, n=%d", request_type, request_number);
-    
     bool isGet = (request_type == SIOCGA80211);
+    
+#define IOCTL(REQ_TYPE, REQ, DATA_TYPE) \
+if (REQ_TYPE == SIOCGA80211) { \
+ret = get##REQ(interface, (struct DATA_TYPE *)data); \
+} else { \
+ret = set##REQ(interface, (struct DATA_TYPE *)data); \
+}
+    
+#define IOCTL_GET(REQ_TYPE, REQ, DATA_TYPE) \
+if (REQ_TYPE == SIOCGA80211) { \
+    ret = get##REQ(interface, (struct DATA_TYPE *)data); \
+}
+
+    
+    
+    
+    IOLog("Black80211: IOCTL %s(%d)", isGet ? "get" : "set", request_number);
     
     switch (request_number) {
         case APPLE80211_IOC_HARDWARE_VERSION:
-            if (isGet) {
-                ret = getHARDWARE_VERSION(interface, (struct apple80211_version_data *)data);
-            }
+            IOCTL_GET(request_type, HARDWARE_VERSION, apple80211_version_data);
             break;
         case APPLE80211_IOC_DRIVER_VERSION:
-            if (isGet) {
-                ret = getDRIVER_VERSION(interface, (struct apple80211_version_data *)data);
-            }
+            IOCTL_GET(request_type, DRIVER_VERSION, apple80211_version_data);
             break;
         case APPLE80211_IOC_LOCALE:
-            if (isGet) {
-                ret = getLOCALE(interface, (struct apple80211_locale_data *)data);
-            }
-            
+            IOCTL_GET(request_type, LOCALE, apple80211_locale_data);
             break;
         case APPLE80211_IOC_COUNTRY_CODE:
-            if (isGet) {
-                ret = getCOUNTRY_CODE(interface, (struct apple80211_country_code_data *)data);
-            }
-            
+            IOCTL_GET(request_type, COUNTRY_CODE, apple80211_country_code_data);
             break;
         case APPLE80211_IOC_PHY_MODE:
-            if (isGet) {
-                ret = getPHY_MODE(interface, (struct apple80211_phymode_data *)data);
-            }
+            IOCTL_GET(request_type, PHY_MODE, apple80211_phymode_data);
             break;
         case APPLE80211_IOC_SUPPORTED_CHANNELS:
-            if (isGet) {
-                ret = getSUPPORTED_CHANNELS(interface, (struct apple80211_sup_channel_data *)data);
-            }
+            IOCTL_GET(request_type, SUPPORTED_CHANNELS, apple80211_sup_channel_data);
             break;
         case APPLE80211_IOC_OP_MODE:
-            if (isGet) {
-                ret = getOP_MODE(interface, (struct apple80211_opmode_data *)data);
-            }
+            IOCTL_GET(request_type, OP_MODE, apple80211_opmode_data);
+            break;
         case APPLE80211_IOC_SSID:
-            if (isGet) {
-                ret = getSSID(interface, (struct apple80211_ssid_data *)data);
-            } else {
-                ret = setSSID(interface, (struct apple80211_ssid_data *)data);
-            }
+            IOCTL(request_type, SSID, apple80211_ssid_data);
+            break;
         case APPLE80211_IOC_STATE:
-            if (isGet) {
-                ret = getSTATE(interface, (struct apple80211_state_data *)data);
-            }
+            IOCTL_GET(request_type, STATE, apple80211_state_data);
+            break;
         case APPLE80211_IOC_POWER:
-            if( isGet ) {
-                ret = getPOWER(interface, (struct apple80211_power_data *)data);
-            } else {
-                ret = setPOWER(interface, (struct apple80211_power_data *)data);
-            }
+            IOCTL(request_type, POWER, apple80211_power_data);
             break;
         case APPLE80211_IOC_CARD_CAPABILITIES:
-            if (isGet) {
-                ret = getCARD_CAPABILITIES(interface, (struct apple80211_capability_data *)data);
-            }
+            IOCTL_GET(request_type, CARD_CAPABILITIES, apple80211_capability_data);
             break;
     }
+#undef IOCTL
     
     return ret;
 }
@@ -302,7 +293,7 @@ IOReturn Black80211Control::getCOUNTRY_CODE(IO80211Interface *interface, struct 
         return kIOReturnSuccess;
     }
     cd->version = APPLE80211_VERSION;
-    strncpy((char*)cd->cc, "cz", sizeof(cd->cc));
+    strncpy((char*)cd->cc, "us", sizeof(cd->cc));
     return kIOReturnSuccess;
 }
 
