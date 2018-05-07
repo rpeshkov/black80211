@@ -27,8 +27,7 @@ void Black80211Control::free() {
 }
 
 bool Black80211Control::start(IOService *provider) {
-    IOLog("ARRRRRRRRRRRRRHHHHHHHHHHHHHHHHHHHH");
-    
+    IOLog("Black80211: Start");
     if (!super::start(provider))
         return false;
     
@@ -68,7 +67,7 @@ IOReturn Black80211Control::getHardwareAddressForInterface(IO80211Interface* net
 
 SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_number, IO80211Interface* interface, void* data ) {
     if (request_type != SIOCGA80211 && request_type != SIOCSA80211) {
-        IOLog("Invalid request");
+        IOLog("Black80211: Invalid request");
         return 0;
     }
 
@@ -81,34 +80,34 @@ SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_nu
     switch (request_number) {
         case APPLE80211_IOC_HARDWARE_VERSION:
             if (isGet) {
-                ret = getHARDWARE_VERSION(interface, (apple80211_version_data *)data);
+                ret = getHARDWARE_VERSION(interface, (struct apple80211_version_data *)data);
             }
             break;
         case APPLE80211_IOC_DRIVER_VERSION:
             if (isGet) {
-                ret = getDRIVER_VERSION(interface, (apple80211_version_data *)data);
+                ret = getDRIVER_VERSION(interface, (struct apple80211_version_data *)data);
             }
             break;
         case APPLE80211_IOC_LOCALE:
             if (isGet) {
-                ret = getLOCALE(interface, (apple80211_locale_data *)data);
+                ret = getLOCALE(interface, (struct apple80211_locale_data *)data);
             }
             
             break;
         case APPLE80211_IOC_COUNTRY_CODE:
             if (isGet) {
-                ret = getCOUNTRY_CODE(interface, (apple80211_country_code_data *)data);
+                ret = getCOUNTRY_CODE(interface, (struct apple80211_country_code_data *)data);
             }
             
             break;
         case APPLE80211_IOC_PHY_MODE:
             if (isGet) {
-                ret = getPHY_MODE(interface, (apple80211_phymode_data *)data);
+                ret = getPHY_MODE(interface, (struct apple80211_phymode_data *)data);
             }
             break;
         case APPLE80211_IOC_SUPPORTED_CHANNELS:
             if (isGet) {
-                ret = getSUPPORTED_CHANNELS(interface, (apple80211_sup_channel_data *)data);
+                ret = getSUPPORTED_CHANNELS(interface, (struct apple80211_sup_channel_data *)data);
             }
             break;
         case APPLE80211_IOC_OP_MODE:
@@ -117,7 +116,9 @@ SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_nu
             }
         case APPLE80211_IOC_SSID:
             if (isGet) {
-//                ret = getSSID(interface, (struct apple80211_ssid_data *)data);
+                ret = getSSID(interface, (struct apple80211_ssid_data *)data);
+            } else {
+                ret = setSSID(interface, (struct apple80211_ssid_data *)data);
             }
         case APPLE80211_IOC_STATE:
             if (isGet) {
@@ -139,14 +140,6 @@ SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_nu
     
     return ret;
 }
-
-//IOReturn Black80211Control::apple80211Request_SET(int request_number, void* data) {
-//    return kIOReturnSuccess;
-//}
-
-//IOReturn Black80211Control::apple80211Request_GET(int request_number, void* data) {
-//    return kIOReturnSuccess;
-//}
 
 IO80211WorkLoop* Black80211Control::getWorkLoop() {
     return fWorkloop;
@@ -188,6 +181,9 @@ const OSString*    Black80211Control::newRevisionString    ( ) const    { return
 //
 
 IOReturn Black80211Control::getPOWER(IO80211Interface *interface, struct apple80211_power_data *pd) {
+    if (!pd) {
+        return kIOReturnSuccess;
+    }
     pd->version = APPLE80211_VERSION;
     pd->num_radios = 3;
     pd->power_state[0] = dev->powerState();
@@ -198,6 +194,9 @@ IOReturn Black80211Control::getPOWER(IO80211Interface *interface, struct apple80
 }
 
 IOReturn Black80211Control::setPOWER(IO80211Interface *interface, struct apple80211_power_data *pd) {
+    if (!pd) {
+        return kIOReturnSuccess;
+    }
     if (pd->num_radios > 0) {
         dev->setPowerState(pd->power_state[0]);
     }
@@ -206,6 +205,9 @@ IOReturn Black80211Control::setPOWER(IO80211Interface *interface, struct apple80
 }
 
 IOReturn Black80211Control::getCARD_CAPABILITIES(IO80211Interface *interface, struct apple80211_capability_data *cd) {
+    if (!cd) {
+        return kIOReturnSuccess;
+    }
     cd->version = APPLE80211_VERSION;
     cd->capabilities[0] = 0xab;
     cd->capabilities[1] = 0x7e;
@@ -222,6 +224,11 @@ IOReturn Black80211Control::getSSID(IO80211Interface *interface, struct apple802
     sd->ssid_len = (UInt32)strlen("anetwork");
     return kIOReturnSuccess;
 }
+
+IOReturn Black80211Control::setSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd) {
+    return kIOReturnSuccess;
+}
+
 
 IOReturn Black80211Control::getSTATE(IO80211Interface *interface, struct apple80211_state_data *sd) {
     if (!sd) {
@@ -241,7 +248,10 @@ IOReturn Black80211Control::getOP_MODE(IO80211Interface *interface, struct apple
     return kIOReturnSuccess;
 }
 
-IOReturn Black80211Control::getSUPPORTED_CHANNELS(IO80211Interface *interface, apple80211_sup_channel_data *ad) {
+IOReturn Black80211Control::getSUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad) {
+    if (!ad) {
+        return kIOReturnSuccess;
+    }
     ad->version = APPLE80211_VERSION;
     ad->num_channels = 13;
     
@@ -256,6 +266,9 @@ IOReturn Black80211Control::getSUPPORTED_CHANNELS(IO80211Interface *interface, a
 }
 
 IOReturn Black80211Control::getHARDWARE_VERSION(IO80211Interface *interface, struct apple80211_version_data *hv) {
+    if (!hv) {
+        return kIOReturnSuccess;
+    }
     hv->version = APPLE80211_VERSION;
     strncpy(hv->string, "Ferrum 0", sizeof(hv->string));
     hv->string_len = strlen("Ferrum 0");
@@ -264,6 +277,9 @@ IOReturn Black80211Control::getHARDWARE_VERSION(IO80211Interface *interface, str
 }
 
 IOReturn Black80211Control::getDRIVER_VERSION(IO80211Interface *interface, struct apple80211_version_data *hv) {
+    if (!hv) {
+        return kIOReturnSuccess;
+    }
     hv->version = APPLE80211_VERSION;
     strncpy(hv->string, "Version 0.0", sizeof(hv->string));
     hv->string_len = strlen("Version 0.0");
@@ -271,20 +287,29 @@ IOReturn Black80211Control::getDRIVER_VERSION(IO80211Interface *interface, struc
     return kIOReturnSuccess;
 }
 
-IOReturn Black80211Control::getLOCALE(IO80211Interface *interface, apple80211_locale_data *ld) {
+IOReturn Black80211Control::getLOCALE(IO80211Interface *interface, struct apple80211_locale_data *ld) {
+    if (!ld) {
+        return kIOReturnSuccess;
+    }
     ld->version = APPLE80211_VERSION;
     ld->locale  = APPLE80211_LOCALE_FCC;
     
     return kIOReturnSuccess;
 }
 
-IOReturn Black80211Control::getCOUNTRY_CODE(IO80211Interface *interface, apple80211_country_code_data *cd) {
+IOReturn Black80211Control::getCOUNTRY_CODE(IO80211Interface *interface, struct apple80211_country_code_data *cd) {
+    if (!cd) {
+        return kIOReturnSuccess;
+    }
     cd->version = APPLE80211_VERSION;
     strncpy((char*)cd->cc, "cz", sizeof(cd->cc));
     return kIOReturnSuccess;
 }
 
-IOReturn Black80211Control::getPHY_MODE(IO80211Interface *interface, apple80211_phymode_data *pd) {
+IOReturn Black80211Control::getPHY_MODE(IO80211Interface *interface, struct apple80211_phymode_data *pd) {
+    if (!pd) {
+        return kIOReturnSuccess;
+    }
     pd->version = APPLE80211_VERSION;
     pd->phy_mode = APPLE80211_MODE_11A | APPLE80211_MODE_11B | APPLE80211_MODE_11G;
     pd->active_phy_mode = APPLE80211_MODE_11B;

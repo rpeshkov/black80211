@@ -51,14 +51,15 @@ private:
     IOReturn setPOWER(IO80211Interface *interface, struct apple80211_power_data *pd);
     IOReturn getCARD_CAPABILITIES(IO80211Interface *interface, struct apple80211_capability_data *cd);
     IOReturn getSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd);
+    IOReturn setSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd);
     IOReturn getSTATE(IO80211Interface *interface, struct apple80211_state_data *sd);
     IOReturn getOP_MODE(IO80211Interface *interface, struct apple80211_opmode_data *od);
-    IOReturn getSUPPORTED_CHANNELS(IO80211Interface *interface, apple80211_sup_channel_data *ad);
+    IOReturn getSUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad);
     IOReturn getHARDWARE_VERSION(IO80211Interface *interface, struct apple80211_version_data *hv);
     IOReturn getDRIVER_VERSION(IO80211Interface *interface, struct apple80211_version_data *hv);
-    IOReturn getLOCALE(IO80211Interface *interface, apple80211_locale_data *ld);
-    IOReturn getCOUNTRY_CODE(IO80211Interface *interface, apple80211_country_code_data *cd);
-    IOReturn getPHY_MODE(IO80211Interface *interface, apple80211_phymode_data *pd);
+    IOReturn getLOCALE(IO80211Interface *interface, struct apple80211_locale_data *ld);
+    IOReturn getCOUNTRY_CODE(IO80211Interface *interface, struct apple80211_country_code_data *cd);
+    IOReturn getPHY_MODE(IO80211Interface *interface, struct apple80211_phymode_data *pd);
 
     
     IO80211WorkLoop *fWorkloop;
