@@ -104,7 +104,8 @@ public:
     OSMetaClassDeclareReservedUnused( IO80211Interface, 13);
     OSMetaClassDeclareReservedUnused( IO80211Interface, 14);
     OSMetaClassDeclareReservedUnused( IO80211Interface, 15);
-
+    
+public:
     IO80211FlowQueue * findOrCreateFlowQueue(IO80211FlowQueueHash);
     void dropTxPacket(mbuf_t);
     void logDebug(unsigned long long, char const*, ...);
@@ -116,7 +117,7 @@ public:
     bool updateLinkSpeed();
     bool reportDataTransferRatesStatic(void*);
     void logDebug(char const*, ...);
-    void postMessage(unsigned int, void*, unsigned long);
+    void postMessage(unsigned int messageId, void*, unsigned long);
     void logDebugHex(void const*, unsigned long, char const*, ...);
     int reportDataPathEventsGated(void*, void*, void*, void*, void*);
     IOReturn IO80211InterfacePostMessage(unsigned int, void*, unsigned long);

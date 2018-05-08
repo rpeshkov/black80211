@@ -55,6 +55,7 @@ private:
     IOReturn getSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd);
     IOReturn setSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd);
     IOReturn getSTATE(IO80211Interface *interface, struct apple80211_state_data *sd);
+    IOReturn setSTATE(IO80211Interface *interface, struct apple80211_state_data *sd);
     IOReturn getOP_MODE(IO80211Interface *interface, struct apple80211_opmode_data *od);
     IOReturn getSUPPORTED_CHANNELS(IO80211Interface *interface, struct apple80211_sup_channel_data *ad);
     
@@ -62,6 +63,11 @@ private:
     IOReturn getLOCALE(IO80211Interface *interface, struct apple80211_locale_data *ld);
     IOReturn getCOUNTRY_CODE(IO80211Interface *interface, struct apple80211_country_code_data *cd);
     IOReturn getPHY_MODE(IO80211Interface *interface, struct apple80211_phymode_data *pd);
+    
+    IOReturn setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd);
+    IOReturn getSCAN_RESULT(IO80211Interface *interface, apple80211_scan_result **sr);
+    IOReturn getBSSID(IO80211Interface *interface, struct apple80211_bssid_data *bd);
+    
 
     
     IO80211WorkLoop *fWorkloop;

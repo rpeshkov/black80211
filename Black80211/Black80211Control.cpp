@@ -36,7 +36,6 @@ bool Black80211Control::start(IOService *provider) {
     attachInterface((IONetworkInterface**) &fInterface, /* attach to DLIL = */ true);
     
     registerService();
-    
     return true;
 }
 
@@ -86,13 +85,24 @@ ret = set##REQ(interface, (struct DATA_TYPE *)data); \
 if (REQ_TYPE == SIOCGA80211) { \
     ret = get##REQ(interface, (struct DATA_TYPE *)data); \
 }
-
-    
+#define IOCTL_SET(REQ_TYPE, REQ, DATA_TYPE) \
+if (REQ_TYPE == SIOCSA80211) { \
+    ret = set##REQ(interface, (struct DATA_TYPE *)data); \
+}
     
     
     IOLog("Black80211: IOCTL %s(%d)", isGet ? "get" : "set", request_number);
     
     switch (request_number) {
+        case APPLE80211_IOC_BSSID:
+            IOCTL_GET(request_type, BSSID, apple80211_bssid_data);
+            break;
+        case APPLE80211_IOC_SCAN_REQ:
+            IOCTL_SET(request_type, SCAN_REQ, apple80211_scan_data);
+            break;
+        case APPLE80211_IOC_SCAN_RESULT:
+            IOCTL_GET(request_type, SCAN_RESULT, apple80211_scan_result*);
+            break;
         case APPLE80211_IOC_HARDWARE_VERSION:
             IOCTL_GET(request_type, HARDWARE_VERSION, apple80211_version_data);
             break;
@@ -226,9 +236,15 @@ IOReturn Black80211Control::getSTATE(IO80211Interface *interface, struct apple80
         return kIOReturnSuccess;
     }
     sd->version = APPLE80211_VERSION;
-    sd->state = APPLE80211_S_INIT;
+    sd->state = dev->state();
     return kIOReturnSuccess;
 }
+
+IOReturn Black80211Control::setSTATE(IO80211Interface *interface, struct apple80211_state_data *sd) {
+    dev->setState(sd->state);
+    return kIOReturnSuccess;
+}
+
 
 IOReturn Black80211Control::getOP_MODE(IO80211Interface *interface, struct apple80211_opmode_data *od) {
     if (!od) {
@@ -305,5 +321,58 @@ IOReturn Black80211Control::getPHY_MODE(IO80211Interface *interface, struct appl
     pd->phy_mode = APPLE80211_MODE_11A | APPLE80211_MODE_11B | APPLE80211_MODE_11G;
     pd->active_phy_mode = APPLE80211_MODE_11B;
     return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd) {
+    dev->setState(APPLE80211_S_SCAN);
+    IOLog("Black80211. Scan requested. Type: %d\n", sd->scan_type);
+    
+    IOSleep(1000);
+    dev->setState(APPLE80211_S_INIT);
+
+    // TODO: Find the way to inform that scan finished. Code below causes panic
+//    if (fInterface) {
+//        fInterface->postMessage(APPLE80211_IOC_SCAN_REQ, NULL, 0);
+//    }
+    
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getSCAN_RESULT(IO80211Interface *interface, struct apple80211_scan_result **sr) {
+    
+    //dev->setState(APPLE80211_S_INIT);
+    
+//    *sr->version = APPLE80211_VERSION;
+//     sr->asr_noise = 60; //oh good AP XD
+//     sr->asr_cap = 0xab;        // Same as us ;)
+//     sr->asr_bssid.octet[0] = 0xFE;
+//     sr->asr_bssid.octet[1] = 0xDC;
+//     sr->asr_bssid.octet[2] = 0xBA;
+//     sr->asr_bssid.octet[3] = 0x98;
+//     sr->asr_bssid.octet[4] = 0x76;
+//     sr->asr_bssid.octet[5] = 0x54;
+//
+//
+//     strncpy((char*)sr->asr_ssid, "anetwork", sizeof(sr->asr_ssid));
+//     sr->asr_ssid_len = strlen("anetwork");
+//
+//     sr->asr_age = 1;    // (ms) non-zero for cached scan result
+//     sr->asr_ie_len = 0;
+//     sr->asr_ie_data = NULL;
+    
+    return kIOReturnSuccess;
+}
+
+IOReturn Black80211Control::getBSSID(IO80211Interface *interface, struct apple80211_bssid_data *bd) {
+    
+    bd->version = APPLE80211_VERSION;
+    bd->bssid.octet[0] = 0xFE;
+    bd->bssid.octet[1] = 0xDC;
+    bd->bssid.octet[2] = 0xBA;
+    bd->bssid.octet[3] = 0x98;
+    bd->bssid.octet[4] = 0x76;
+    bd->bssid.octet[5] = 0x54;
+    
+    return 0;
 }
 
