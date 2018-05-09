@@ -30,8 +30,6 @@
             <string>net.rpeshkov.${PRODUCT_NAME:rfc1034identifier}</string>
             <key>IOClass</key>
             <string>Black80211Control</string>
-            <key>IOPCIPrimaryMatch</key>
-            <string>0x08968086</string>
             <key>IOProviderClass</key>
             <string>IOPCIDevice</string>
         </dict>
