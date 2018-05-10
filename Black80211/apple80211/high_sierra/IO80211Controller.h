@@ -9,6 +9,8 @@
 	#define _MODERN_BPF
 #endif
 
+#include <sys/kpi_mbuf.h>
+
 #include <IOKit/network/IOEthernetController.h>
 
 #include <sys/param.h>

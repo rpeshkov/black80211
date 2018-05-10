@@ -104,7 +104,7 @@ public:
     OSMetaClassDeclareReservedUnused( IO80211Interface, 13);
     OSMetaClassDeclareReservedUnused( IO80211Interface, 14);
     OSMetaClassDeclareReservedUnused( IO80211Interface, 15);
-
+public:
     IO80211FlowQueue * findOrCreateFlowQueue(IO80211FlowQueueHash);
     void dropTxPacket(mbuf_t);
     void logDebug(unsigned long long, char const*, ...);

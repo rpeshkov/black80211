@@ -27,6 +27,7 @@
 #include <net/if.h>
 #include <net/ethernet.h>
 #include <sys/param.h>
+#include <sys/ioctl.h>
 
 #include "apple80211_var.h"
 
