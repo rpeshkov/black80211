@@ -22,9 +22,13 @@ public:
     UInt32 state() { return m_state; }
     void setState(UInt32 state) { m_state = state; }
     
+    bool published() { return m_published; }
+    void setPublished(bool value) { m_published = value; }
+    
 private:
     UInt32 m_powerState;
     UInt32 m_state;
+    bool m_published;
 };
 
 #endif /* FakeDevice_hpp */

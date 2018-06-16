@@ -66,7 +66,14 @@ private:
     
     IOReturn setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd);
     IOReturn getSCAN_RESULT(IO80211Interface *interface, apple80211_scan_result **sr);
+    
     IOReturn getBSSID(IO80211Interface *interface, struct apple80211_bssid_data *bd);
+    
+    IOReturn getTX_ANTENNA(IO80211Interface *interface, apple80211_antenna_data *ad);
+    IOReturn getANTENNA_DIVERSITY(IO80211Interface *interface, apple80211_antenna_data *ad);
+    IOReturn getCHANNEL(IO80211Interface *interface, struct apple80211_channel_data *cd);
+    IOReturn setASSOCIATE(IO80211Interface *interface,struct apple80211_assoc_data *ad);
+
     
 
     

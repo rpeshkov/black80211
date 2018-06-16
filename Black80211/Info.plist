@@ -32,6 +32,8 @@
             <string>Black80211Control</string>
             <key>IOProviderClass</key>
             <string>IOPCIDevice</string>
+            <key>IOPCIPrimaryMatch</key>
+            <string>0x08968086</string>
         </dict>
     </dict>
 	<key>NSHumanReadableCopyright</key>
