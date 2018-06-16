@@ -10,11 +10,36 @@
 #include <IOKit/IOTimerEventSource.h>
 #include <IOKit/IOLocks.h>
 
+#include <IOKit/network/IOPacketQueue.h>
+#include <IOKit/network/IONetworkMedium.h>
+#include <IOKit/IOTimerEventSource.h>
+#include <IOKit/IODeviceMemory.h>
+#include <IOKit/assert.h>
+#include <IOKit/IODataQueue.h>
+#include <IOKit/IOMemoryDescriptor.h>
+#include <IOKit/network/IONetworkController.h>
+#include <IOKit/pci/IOPCIDevice.h>
+#include <IOKit/IOInterruptEventSource.h>
+
+
 #include <IOKit/network/IOGatedOutputQueue.h>
 
 #include "apple80211.h"
 
 #include "FakeDevice.hpp"
+
+typedef enum {
+    MEDIUM_TYPE_NONE = 0,
+    MEDIUM_TYPE_AUTO,
+    MEDIUM_TYPE_1MBIT,
+    MEDIUM_TYPE_2MBIT,
+    MEDIUM_TYPE_5MBIT,
+    MEDIUM_TYPE_11MBIT,
+    MEDIUM_TYPE_54MBIT,
+    MEDIUM_TYPE_INVALID
+} mediumType_t;
+
+
 
 class Black80211Control : public IO80211Controller {
     
@@ -73,6 +98,14 @@ private:
     IOReturn getANTENNA_DIVERSITY(IO80211Interface *interface, apple80211_antenna_data *ad);
     IOReturn getCHANNEL(IO80211Interface *interface, struct apple80211_channel_data *cd);
     IOReturn setASSOCIATE(IO80211Interface *interface,struct apple80211_assoc_data *ad);
+    IOReturn getAUTH_TYPE(IO80211Interface *interface, struct apple80211_authtype_data *ad);
+    
+    IOReturn getNOISE(IO80211Interface *interface,struct apple80211_noise_data *nd);
+    IOReturn getRSSI(IO80211Interface *interface, struct apple80211_rssi_data *rd);
+    IOReturn getTXPOWER(IO80211Interface *interface, struct apple80211_txpower_data *txd);
+    IOReturn getRATE(IO80211Interface *interface, struct apple80211_rate_data *rd);
+    
+    bool addMediumType(UInt32 type, UInt32 speed, UInt32 code, char* name = 0);
 
     
 
@@ -84,6 +117,9 @@ private:
     IOTimerEventSource*     fTimer;
     
     FakeDevice *dev;
+    
+    OSDictionary *mediumDict;
+    IONetworkMedium    *            mediumTable[MEDIUM_TYPE_INVALID];
     
 protected:
     IO80211Interface* getInterface();

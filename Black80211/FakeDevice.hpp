@@ -25,10 +25,13 @@ public:
     bool published() { return m_published; }
     void setPublished(bool value) { m_published = value; }
     
+    SInt32 counter;
+    
 private:
     UInt32 m_powerState;
     UInt32 m_state;
     bool m_published;
+    
 };
 
 #endif /* FakeDevice_hpp */

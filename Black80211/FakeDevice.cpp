@@ -12,7 +12,8 @@
 FakeDevice::FakeDevice()
     : m_powerState(APPLE80211_POWER_OFF)
     , m_state(APPLE80211_S_INIT)
-    , m_published(false) {
+    , m_published(false)
+    , counter(-1){
     
 }
 
