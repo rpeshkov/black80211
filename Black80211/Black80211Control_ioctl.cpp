@@ -13,13 +13,10 @@
 //
 
 IOReturn Black80211Control::getSSID(IO80211Interface *interface, struct apple80211_ssid_data *sd) {
-    if (!sd) {
-        return kIOReturnSuccess;
-    }
     memset(sd, 0, sizeof(*sd));
     sd->version = APPLE80211_VERSION;
-    //    strncpy((char*)sd->ssid_bytes, "anetwork", sizeof(sd->ssid_bytes));
-    //    sd->ssid_len = (UInt32)strlen("anetwork");
+    strncpy((char*)sd->ssid_bytes, "anetwork", sizeof(sd->ssid_bytes));
+    sd->ssid_len = (UInt32)strlen("anetwork");
     return kIOReturnSuccess;
 }
 
@@ -31,8 +28,7 @@ IOReturn Black80211Control::setSSID(IO80211Interface *interface, struct apple802
 // MARK: 2 - AUTH_TYPE
 //
 
-IOReturn Black80211Control::getAUTH_TYPE(IO80211Interface *interface, struct apple80211_authtype_data *ad)
-{
+IOReturn Black80211Control::getAUTH_TYPE(IO80211Interface *interface, struct apple80211_authtype_data *ad) {
     ad->version = APPLE80211_VERSION;
     ad->authtype_lower = APPLE80211_AUTHTYPE_OPEN;    //    open at this moment
     ad->authtype_upper = APPLE80211_AUTHTYPE_NONE;    //    NO upper AUTHTYPE
@@ -101,9 +97,9 @@ IOReturn Black80211Control::setSCAN_REQ(IO80211Interface *interface, struct appl
     dev->setState(APPLE80211_S_SCAN);
     IOLog("Black80211. Scan requested. Type: %d\n", sd->scan_type);
     
-    if (interface) {
-        interface->postMessage(APPLE80211_M_SCAN_DONE);
-    }
+//    if (interface) {
+//        interface->postMessage(APPLE80211_M_SCAN_DONE);
+//    }
     
     dev->setState(APPLE80211_S_INIT);
     

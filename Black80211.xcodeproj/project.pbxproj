@@ -102,11 +102,11 @@
 				A612722F2039FFC1009DD95B /* apple80211 */,
 				A61272252039FD13009DD95B /* Black80211Control.hpp */,
 				A612723C203A1079009DD95B /* Black80211Control.cpp */,
+				A632F0D620E8230700AAC444 /* Black80211Control_ioctl.cpp */,
 				A61272292039FD13009DD95B /* Info.plist */,
 				A635043B209A3CC700C82B59 /* apple80211.h */,
 				A6E361AF209F924400794572 /* FakeDevice.cpp */,
 				A6E361B0209F924400794572 /* FakeDevice.hpp */,
-				A632F0D620E8230700AAC444 /* Black80211Control_ioctl.cpp */,
 			);
 			path = Black80211;
 			sourceTree = "<group>";

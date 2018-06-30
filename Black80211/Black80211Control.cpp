@@ -1,4 +1,4 @@
-/* add your code here */
+/* add your code here*/
 
 typedef unsigned int ifnet_ctl_cmd_t;
 
@@ -10,7 +10,7 @@ typedef unsigned int ifnet_ctl_cmd_t;
 OSDefineMetaClassAndStructors(Black80211Control, IO80211Controller);
 #define super IO80211Controller
 
-bool Black80211Control::init(OSDictionary *parameters) {
+bool Black80211Control::init(OSDictionary* parameters) {
     bool ret = super::init(parameters);
     if (!ret) {
         return ret;
@@ -26,7 +26,7 @@ void Black80211Control::free() {
     super::free();
 }
 
-bool Black80211Control::start(IOService *provider) {
+bool Black80211Control::start(IOService* provider) {
     IOLog("Black80211: Start");
     if (!super::start(provider))
         return false;
@@ -58,7 +58,7 @@ bool Black80211Control::start(IOService *provider) {
 }
 
 bool Black80211Control::addMediumType(UInt32 type, UInt32 speed, UInt32 code, char* name) {
-    IONetworkMedium * medium;
+    IONetworkMedium*  medium;
     bool              ret = false;
     
     medium = IONetworkMedium::medium(type, speed, 0, code, name);
@@ -72,7 +72,7 @@ bool Black80211Control::addMediumType(UInt32 type, UInt32 speed, UInt32 code, ch
 }
 
 
-void Black80211Control::stop(IOService *provider) {
+void Black80211Control::stop(IOService* provider) {
     if (fWorkloop) {
         fWorkloop->release();
         fWorkloop = NULL;
@@ -81,15 +81,15 @@ void Black80211Control::stop(IOService *provider) {
     super::stop(provider);
 }
 
-IOReturn Black80211Control::enable(IONetworkInterface *interface) {
-    return kIOReturnSuccess;
+IOReturn Black80211Control::enable(IONetworkInterface* interface) {
+    return super::enable(interface);
 }
 
-IOReturn Black80211Control::disable(IONetworkInterface *interface) {
-    return kIOReturnSuccess;
+IOReturn Black80211Control::disable(IONetworkInterface* interface) {
+    return super::disable(interface);
 }
 
-IOReturn Black80211Control::getHardwareAddress(IOEthernetAddress *addr) {
+IOReturn Black80211Control::getHardwareAddress(IOEthernetAddress* addr) {
     addr->bytes[0] = 0xAA;
     addr->bytes[1] = 0x99;
     addr->bytes[2] = 0x88;
@@ -115,24 +115,21 @@ SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_nu
     
 #define IOCTL(REQ_TYPE, REQ, DATA_TYPE) \
 if (REQ_TYPE == SIOCGA80211) { \
-ret = get##REQ(interface, (struct DATA_TYPE *)data); \
+ret = get##REQ(interface, (struct DATA_TYPE* )data); \
 } else { \
-ret = set##REQ(interface, (struct DATA_TYPE *)data); \
+ret = set##REQ(interface, (struct DATA_TYPE* )data); \
 }
     
 #define IOCTL_GET(REQ_TYPE, REQ, DATA_TYPE) \
 if (REQ_TYPE == SIOCGA80211) { \
-    ret = get##REQ(interface, (struct DATA_TYPE *)data); \
+    ret = get##REQ(interface, (struct DATA_TYPE* )data); \
 }
 #define IOCTL_SET(REQ_TYPE, REQ, DATA_TYPE) \
 if (REQ_TYPE == SIOCSA80211) { \
-    ret = set##REQ(interface, (struct DATA_TYPE *)data); \
+    ret = set##REQ(interface, (struct DATA_TYPE* )data); \
 }
     
-    
     IOLog("Black80211: IOCTL %s(%d)", isGet ? "get" : "set", request_number);
-    
-    
     
     switch (request_number) {
         case APPLE80211_IOC_SSID: // 1
@@ -224,38 +221,47 @@ IO80211Interface* Black80211Control::getInterface() {
     return fInterface;
 }
 
-UInt32 Black80211Control::outputPacket(mbuf_t m, void *param) {
+UInt32 Black80211Control::outputPacket(mbuf_t m, void* param) {
     freePacket(m);
     return kIOReturnSuccess;
 }
 
 IOOutputQueue* Black80211Control::createOutputQueue() {
-    
     if (fOutputQueue == 0) {
         fOutputQueue = IOGatedOutputQueue::withTarget(this, getWorkLoop());
     }
     return fOutputQueue;
-
 }
 
+IOReturn Black80211Control::getMaxPacketSize( UInt32* maxSize ) const {
+    *maxSize = 1500;
+    return kIOReturnSuccess;
+}
 
-IOReturn Black80211Control::getMaxPacketSize( UInt32 *maxSize ) const { *maxSize = 1500; return kIOReturnSuccess; }
-IOReturn Black80211Control::setPromiscuousMode(IOEnetPromiscuousMode mode) { return kIOReturnSuccess; }
-IOReturn Black80211Control::setMulticastMode(IOEnetMulticastMode mode) { return kIOReturnSuccess; }
-IOReturn Black80211Control::setMulticastList(IOEthernetAddress* addr, UInt32 len) { return kIOReturnSuccess; }
-SInt32   Black80211Control::monitorModeSetEnabled(IO80211Interface* interface, bool enabled, UInt32 dlt) { return kIOReturnSuccess; }
+IOReturn Black80211Control::setPromiscuousMode(IOEnetPromiscuousMode mode) {
+    return kIOReturnSuccess;
+}
 
-const OSString*    Black80211Control::newVendorString    ( ) const    { return OSString::withCString("Voodoo(R)"); }
-const OSString*    Black80211Control::newModelString        ( ) const    { return OSString::withCString("Wireless Device(TM)"); }
-const OSString*    Black80211Control::newRevisionString    ( ) const    { return OSString::withCString("1.0"); }
+IOReturn Black80211Control::setMulticastMode(IOEnetMulticastMode mode) {
+    return kIOReturnSuccess;
+}
 
+IOReturn Black80211Control::setMulticastList(IOEthernetAddress* addr, UInt32 len) {
+    return kIOReturnSuccess;
+}
 
+SInt32 Black80211Control::monitorModeSetEnabled(IO80211Interface* interface, bool enabled, UInt32 dlt) {
+    return kIOReturnSuccess;
+}
 
-//
-// IOCTL
-//
+const OSString* Black80211Control::newVendorString() const {
+    return OSString::withCString("Voodoo(R)");
+}
 
+const OSString* Black80211Control::newModelString() const {
+    return OSString::withCString("Wireless Device(TM)");
+}
 
-
-
-
+const OSString* Black80211Control::newRevisionString() const {
+    return OSString::withCString("1.0");
+}
