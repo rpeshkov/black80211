@@ -116,7 +116,7 @@ public:
     bool updateLinkSpeed();
     bool reportDataTransferRatesStatic(void*);
     void logDebug(char const*, ...);
-    void postMessage(unsigned int, void*, unsigned long);
+    void postMessage(unsigned int, void* data = NULL, unsigned long dataLen = 0);
     void logDebugHex(void const*, unsigned long, char const*, ...);
     int reportDataPathEventsGated(void*, void*, void*, void*, void*);
     IOReturn IO80211InterfacePostMessage(unsigned int, void*, unsigned long);
