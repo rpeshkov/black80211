@@ -33,6 +33,12 @@ bool Black80211Control::start(IOService* provider) {
     
     fWorkloop = IO80211WorkLoop::workLoop();
     
+    fCommandGate = IOCommandGate::commandGate(this);
+    
+    fWorkloop->addEventSource(fCommandGate);
+    
+    fCommandGate->enable();
+    
     attachInterface((IONetworkInterface**) &fInterface, /* attach to DLIL = */ true);
     
     fInterface->registerService();
@@ -52,7 +58,6 @@ bool Black80211Control::start(IOService* provider) {
     setSelectedMedium(mediumTable[MEDIUM_TYPE_AUTO]);
     setLinkStatus(kIONetworkLinkValid, mediumTable[MEDIUM_TYPE_AUTO]);
 
-    
     registerService();
     return true;
 }
@@ -174,6 +179,9 @@ if (REQ_TYPE == SIOCSA80211) { \
         case APPLE80211_IOC_NOISE: // 17
             IOCTL_GET(request_type, NOISE, apple80211_noise_data);
             break;
+        case APPLE80211_IOC_INT_MIT: // 18
+            IOCTL_GET(request_type, INT_MIT, apple80211_intmit_data);
+            break;
         case APPLE80211_IOC_POWER: // 19
             IOCTL(request_type, POWER, apple80211_power_data);
             break;
@@ -200,6 +208,9 @@ if (REQ_TYPE == SIOCSA80211) { \
             break;
         case APPLE80211_IOC_COUNTRY_CODE: // 51
             IOCTL_GET(request_type, COUNTRY_CODE, apple80211_country_code_data);
+            break;
+        case APPLE80211_IOC_MCS: // 57
+            IOCTL_GET(request_type, MCS, apple80211_mcs_data);
             break;
         case APPLE80211_IOC_WOW_PARAMETERS: // 69
             break;

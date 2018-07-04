@@ -102,6 +102,8 @@ private:
     IOReturn getRSSI(IO80211Interface* interface, struct apple80211_rssi_data* rd);
     // 17 - NOISE
     IOReturn getNOISE(IO80211Interface* interface,struct apple80211_noise_data* nd);
+    // 18 - INT_MIT
+    IOReturn getINT_MIT(IO80211Interface* interface, struct apple80211_intmit_data* imd);
     // 19 - POWER
     IOReturn getPOWER(IO80211Interface* interface, struct apple80211_power_data* pd);
     IOReturn setPOWER(IO80211Interface* interface, struct apple80211_power_data* pd);
@@ -121,6 +123,8 @@ private:
     IOReturn getHARDWARE_VERSION(IO80211Interface* interface, struct apple80211_version_data* hv);
     // 51 - COUNTRY_CODE
     IOReturn getCOUNTRY_CODE(IO80211Interface* interface, struct apple80211_country_code_data* cd);
+    // 57 - MCS
+    IOReturn getMCS(IO80211Interface* interface, struct apple80211_mcs_data* md);
     
     bool addMediumType(UInt32 type, UInt32 speed, UInt32 code, char* name = 0);
     
