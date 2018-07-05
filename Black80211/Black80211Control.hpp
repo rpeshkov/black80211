@@ -41,23 +41,17 @@ typedef enum {
 
 #define RELEASE(x) if(x){(x)->release();(x)=NULL;}
 
-
-
 class Black80211Control : public IO80211Controller {
     
     OSDeclareDefaultStructors(Black80211Control)
     
 public:
-    bool init(OSDictionary* parameters);
-    void free();
-    bool start(IOService* provider);
-    void stop(IOService* provider);
-    virtual IO80211WorkLoop* getWorkLoop();
+    virtual bool init(OSDictionary* parameters) APPLE_KEXT_OVERRIDE;
+    virtual void free() APPLE_KEXT_OVERRIDE;
+    virtual bool start(IOService* provider) APPLE_KEXT_OVERRIDE;
+    virtual void stop(IOService* provider) APPLE_KEXT_OVERRIDE;
     
     SInt32 apple80211Request(UInt32 request_type, int request_number, IO80211Interface* interface, void* data);
-    virtual IOReturn enable(IONetworkInterface* aNetif);
-    virtual IOReturn disable(IONetworkInterface* aNetif);
-    IOOutputQueue* createOutputQueue();
     virtual UInt32 outputPacket (mbuf_t m, void* param);
     IOReturn getMaxPacketSize(UInt32* maxSize) const;
     const OSString* newVendorString() const;

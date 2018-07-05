@@ -46,7 +46,7 @@ bool Black80211Control::start(IOService* provider) {
         return false;
     }
     
-    fWorkloop = IO80211WorkLoop::workLoop();
+    fWorkloop = (IO80211WorkLoop *)getWorkLoop();
     if (!fWorkloop) {
         IOLog("Black80211: Failed to get workloop!");
         ReleaseAll();
@@ -129,25 +129,22 @@ bool Black80211Control::addMediumType(UInt32 type, UInt32 speed, UInt32 code, ch
 
 void Black80211Control::stop(IOService* provider) {
     if (fCommandGate) {
+        IOLog("Black80211::stop: Command gate alive. Disabling it.");
         fCommandGate->disable();
+        IOLog("Black80211::stop: Done disabling command gate");
         if (fWorkloop) {
+            IOLog("Black80211::stop: Workloop alive. Removing command gate");
             fWorkloop->removeEventSource(fCommandGate);
         }
     }
     
     if (fInterface) {
-        detachInterface(fInterface);
+        IOLog("Black80211::stop: Detaching interface");
+        detachInterface(fInterface, true);
+        fInterface = NULL;
     }
     
     super::stop(provider);
-}
-
-IOReturn Black80211Control::enable(IONetworkInterface* interface) {
-    return super::enable(interface);
-}
-
-IOReturn Black80211Control::disable(IONetworkInterface* interface) {
-    return super::disable(interface);
 }
 
 IOReturn Black80211Control::getHardwareAddress(IOEthernetAddress* addr) {
@@ -287,24 +284,9 @@ if (REQ_TYPE == SIOCSA80211) { \
     return ret;
 }
 
-IO80211WorkLoop* Black80211Control::getWorkLoop() {
-    return fWorkloop;
-}
-
-IO80211Interface* Black80211Control::getInterface() {
-    return fInterface;
-}
-
 UInt32 Black80211Control::outputPacket(mbuf_t m, void* param) {
     freePacket(m);
     return kIOReturnSuccess;
-}
-
-IOOutputQueue* Black80211Control::createOutputQueue() {
-    if (fOutputQueue == 0) {
-        fOutputQueue = IOGatedOutputQueue::withTarget(this, getWorkLoop());
-    }
-    return fOutputQueue;
 }
 
 IOReturn Black80211Control::getMaxPacketSize( UInt32* maxSize ) const {
