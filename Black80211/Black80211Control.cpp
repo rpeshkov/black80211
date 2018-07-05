@@ -13,9 +13,11 @@ OSDefineMetaClassAndStructors(Black80211Control, IO80211Controller);
 #define super IO80211Controller
 
 bool Black80211Control::init(OSDictionary* parameters) {
-    bool ret = super::init(parameters);
-    if (!ret) {
-        return ret;
+    IOLog("Black80211: Init");
+    
+    if (!super::init(parameters)) {
+        IOLog("Black80211: Failed to call IO80211Controller::init!");
+        return false;
     }
     
     dev = new FakeDevice();
@@ -23,25 +25,54 @@ bool Black80211Control::init(OSDictionary* parameters) {
 }
 
 void Black80211Control::free() {
-    delete dev;
+    IOLog("Black80211: Free");
     
+    ReleaseAll();
     super::free();
 }
 
 bool Black80211Control::start(IOService* provider) {
     IOLog("Black80211: Start");
-    if (!super::start(provider))
+    if (!super::start(provider)) {
+        IOLog("Black80211: Failed to call IO80211Controller::start!");
+        ReleaseAll();
         return false;
+    }
+    
+    fPciDevice = OSDynamicCast(IOPCIDevice, provider);
+    if (!fPciDevice) {
+        IOLog("Black80211: Failed to cast provider to IOPCIDevice!");
+        ReleaseAll();
+        return false;
+    }
     
     fWorkloop = IO80211WorkLoop::workLoop();
+    if (!fWorkloop) {
+        IOLog("Black80211: Failed to get workloop!");
+        ReleaseAll();
+        return false;
+    }
     
     fCommandGate = IOCommandGate::commandGate(this);
+    if (!fCommandGate) {
+        IOLog("Black80211: Failed to create command gate!");
+        ReleaseAll();
+        return false;
+    }
     
-    fWorkloop->addEventSource(fCommandGate);
+    if (fWorkloop->addEventSource(fCommandGate) != kIOReturnSuccess) {
+        IOLog("Black80211: Failed to register command gate event source!");
+        ReleaseAll();
+        return false;
+    }
     
     fCommandGate->enable();
     
-    attachInterface((IONetworkInterface**) &fInterface, /* attach to DLIL = */ true);
+    if (!attachInterface((IONetworkInterface**) &fInterface, true)) {
+        IOLog("Black80211: Failed to attach interface!");
+        ReleaseAll();
+        return false;
+    }
     
     fInterface->registerService();
     
@@ -55,20 +86,37 @@ bool Black80211Control::start(IOService* provider) {
     addMediumType(kIOMediumIEEE80211,     54000000, MEDIUM_TYPE_54MBIT, "OFDM54");
     //addMediumType(kIOMediumIEEE80211OptionAdhoc, 0, MEDIUM_TYPE_ADHOC,"ADHOC");
     
-    publishMediumDictionary(mediumDict);
-    setCurrentMedium(mediumTable[MEDIUM_TYPE_AUTO]);
-    setSelectedMedium(mediumTable[MEDIUM_TYPE_AUTO]);
-    setLinkStatus(kIONetworkLinkValid, mediumTable[MEDIUM_TYPE_AUTO]);
+    if (!publishMediumDictionary(mediumDict)) {
+        IOLog("Black80211: Failed to publish medium dictionary!");
+        ReleaseAll();
+        return false;
+    }
+    
+    if (!setCurrentMedium(mediumTable[MEDIUM_TYPE_AUTO])) {
+        IOLog("Black80211: Failed to set current medium!");
+        ReleaseAll();
+        return false;
+    }
+    if (!setSelectedMedium(mediumTable[MEDIUM_TYPE_AUTO])) {
+        IOLog("Black80211: Failed to set selected medium!");
+        ReleaseAll();
+        return false;
+    }
+    
+    if (!setLinkStatus(kIONetworkLinkValid, mediumTable[MEDIUM_TYPE_AUTO])) {
+        IOLog("Black80211: Failed to set link status!");
+        ReleaseAll();
+        return false;
+    }
 
     registerService();
     return true;
 }
 
 bool Black80211Control::addMediumType(UInt32 type, UInt32 speed, UInt32 code, char* name) {
-    IONetworkMedium*  medium;
-    bool              ret = false;
+    bool ret = false;
     
-    medium = IONetworkMedium::medium(type, speed, 0, code, name);
+    IONetworkMedium* medium = IONetworkMedium::medium(type, speed, 0, code, name);
     if (medium) {
         ret = IONetworkMedium::addMedium(mediumDict, medium);
         if (ret)
@@ -80,9 +128,15 @@ bool Black80211Control::addMediumType(UInt32 type, UInt32 speed, UInt32 code, ch
 
 
 void Black80211Control::stop(IOService* provider) {
-    if (fWorkloop) {
-        fWorkloop->release();
-        fWorkloop = NULL;
+    if (fCommandGate) {
+        fCommandGate->disable();
+        if (fWorkloop) {
+            fWorkloop->removeEventSource(fCommandGate);
+        }
+    }
+    
+    if (fInterface) {
+        detachInterface(fInterface);
     }
     
     super::stop(provider);
@@ -106,14 +160,18 @@ IOReturn Black80211Control::getHardwareAddress(IOEthernetAddress* addr) {
     return kIOReturnSuccess;
 }
 
-IOReturn Black80211Control::getHardwareAddressForInterface(IO80211Interface* netif, IOEthernetAddress* addr) {
+IOReturn Black80211Control::getHardwareAddressForInterface(IO80211Interface* netif,
+                                                           IOEthernetAddress* addr) {
     return getHardwareAddress(addr);
 }
 
-SInt32 Black80211Control::apple80211Request( UInt32 request_type, int request_number, IO80211Interface* interface, void* data ) {
+SInt32 Black80211Control::apple80211Request(UInt32 request_type,
+                                            int request_number,
+                                            IO80211Interface* interface,
+                                            void* data) {
     if (request_type != SIOCGA80211 && request_type != SIOCSA80211) {
-        IOLog("Black80211: Invalid request");
-        return 0;
+        IOLog("Black80211: Invalid IOCTL request type: %u", request_type);
+        return kIOReturnError;
     }
 
     IOReturn ret = 0;
@@ -136,7 +194,10 @@ if (REQ_TYPE == SIOCSA80211) { \
     ret = set##REQ(interface, (struct DATA_TYPE* )data); \
 }
     
-    IOLog("Black80211: IOCTL %s(%d) %s", isGet ? "get" : "set", request_number, IOCTL_NAMES[request_number]);
+    IOLog("Black80211: IOCTL %s(%d) %s",
+          isGet ? "get" : "set",
+          request_number,
+          IOCTL_NAMES[request_number]);
     
     switch (request_number) {
         case APPLE80211_IOC_SSID: // 1
@@ -263,16 +324,18 @@ IOReturn Black80211Control::setMulticastList(IOEthernetAddress* addr, UInt32 len
     return kIOReturnSuccess;
 }
 
-SInt32 Black80211Control::monitorModeSetEnabled(IO80211Interface* interface, bool enabled, UInt32 dlt) {
+SInt32 Black80211Control::monitorModeSetEnabled(IO80211Interface* interface,
+                                                bool enabled,
+                                                UInt32 dlt) {
     return kIOReturnSuccess;
 }
 
 const OSString* Black80211Control::newVendorString() const {
-    return OSString::withCString("Voodoo(R)");
+    return OSString::withCString("black_wizard");
 }
 
 const OSString* Black80211Control::newModelString() const {
-    return OSString::withCString("Wireless Device(TM)");
+    return OSString::withCString("BlackControl80211");
 }
 
 const OSString* Black80211Control::newRevisionString() const {

@@ -39,6 +39,8 @@ typedef enum {
     MEDIUM_TYPE_INVALID
 } mediumType_t;
 
+#define RELEASE(x) if(x){(x)->release();(x)=NULL;}
+
 
 
 class Black80211Control : public IO80211Controller {
@@ -126,13 +128,28 @@ private:
     // 57 - MCS
     IOReturn getMCS(IO80211Interface* interface, struct apple80211_mcs_data* md);
     
+    
+    inline void ReleaseAll() {
+        RELEASE(fOutputQueue);
+        RELEASE(fCommandGate);
+        RELEASE(fWorkloop);
+        RELEASE(mediumDict);
+        RELEASE(fWorkloop);
+        RELEASE(fPciDevice);
+        
+        if (dev) {
+            delete dev;
+            dev = NULL;
+        }
+    }
+    
     bool addMediumType(UInt32 type, UInt32 speed, UInt32 code, char* name = 0);
     
     IO80211WorkLoop* fWorkloop;
     IO80211Interface* fInterface;
     IOGatedOutputQueue* fOutputQueue;
     IOCommandGate* fCommandGate;
-    IOTimerEventSource* fTimer;
+    IOPCIDevice* fPciDevice;
     
     FakeDevice* dev;
     
