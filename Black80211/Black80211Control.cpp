@@ -7,6 +7,8 @@ typedef unsigned int ifnet_ctl_cmd_t;
 
 #include "Black80211Control.hpp"
 
+#include "debug.h"
+
 OSDefineMetaClassAndStructors(Black80211Control, IO80211Controller);
 #define super IO80211Controller
 
@@ -134,7 +136,7 @@ if (REQ_TYPE == SIOCSA80211) { \
     ret = set##REQ(interface, (struct DATA_TYPE* )data); \
 }
     
-    IOLog("Black80211: IOCTL %s(%d)", isGet ? "get" : "set", request_number);
+    IOLog("Black80211: IOCTL %s(%d) %s", isGet ? "get" : "set", request_number, IOCTL_NAMES[request_number]);
     
     switch (request_number) {
         case APPLE80211_IOC_SSID: // 1

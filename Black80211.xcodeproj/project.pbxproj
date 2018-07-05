@@ -31,6 +31,7 @@
 		A6350438209A3CAD00C82B59 /* apple80211_wps.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350432209A3CAC00C82B59 /* apple80211_wps.h */; };
 		A6350439209A3CAD00C82B59 /* IO80211Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350433209A3CAC00C82B59 /* IO80211Controller.h */; };
 		A635043A209A3CAD00C82B59 /* apple80211_ioctl.h in Headers */ = {isa = PBXBuildFile; fileRef = A6350434209A3CAC00C82B59 /* apple80211_ioctl.h */; };
+		A688015420EDA58B00590651 /* debug.h in Headers */ = {isa = PBXBuildFile; fileRef = A688015320EDA58B00590651 /* debug.h */; };
 		A6E361B1209F924400794572 /* FakeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E361AF209F924400794572 /* FakeDevice.cpp */; };
 		A6E361B2209F924400794572 /* FakeDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A6E361AF209F924400794572 /* FakeDevice.cpp */; };
 		A6E361B3209F924400794572 /* FakeDevice.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A6E361B0209F924400794572 /* FakeDevice.hpp */; };
@@ -56,6 +57,7 @@
 		A6350433209A3CAC00C82B59 /* IO80211Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IO80211Controller.h; sourceTree = "<group>"; };
 		A6350434209A3CAC00C82B59 /* apple80211_ioctl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = apple80211_ioctl.h; sourceTree = "<group>"; };
 		A635043B209A3CC700C82B59 /* apple80211.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = apple80211.h; sourceTree = "<group>"; };
+		A688015320EDA58B00590651 /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		A6881FF7209A29A3009B1576 /* Black80211.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Black80211.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6E361AF209F924400794572 /* FakeDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FakeDevice.cpp; sourceTree = "<group>"; };
 		A6E361B0209F924400794572 /* FakeDevice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FakeDevice.hpp; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				A635043B209A3CC700C82B59 /* apple80211.h */,
 				A6E361AF209F924400794572 /* FakeDevice.cpp */,
 				A6E361B0209F924400794572 /* FakeDevice.hpp */,
+				A688015320EDA58B00590651 /* debug.h */,
 			);
 			path = Black80211;
 			sourceTree = "<group>";
@@ -174,6 +177,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A688015420EDA58B00590651 /* debug.h in Headers */,
 				A6350425209A344900C82B59 /* apple80211_ioctl.h in Headers */,
 				A6350426209A344900C82B59 /* apple80211_var.h in Headers */,
 				A6350427209A344900C82B59 /* apple80211_wps.h in Headers */,

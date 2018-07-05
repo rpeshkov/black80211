@@ -31,7 +31,6 @@ IOReturn Black80211Control::setSSID(IO80211Interface *interface, struct apple802
 //
 
 IOReturn Black80211Control::getAUTH_TYPE(IO80211Interface *interface, struct apple80211_authtype_data *ad) {
-    return kIOReturnError;
     ad->version = APPLE80211_VERSION;
     ad->authtype_lower = APPLE80211_AUTHTYPE_OPEN;    //    open at this moment
     ad->authtype_upper = APPLE80211_AUTHTYPE_NONE;    //    NO upper AUTHTYPE
@@ -61,6 +60,7 @@ IOReturn Black80211Control::getCHANNEL(IO80211Interface *interface, struct apple
 //
 
 IOReturn Black80211Control::getTXPOWER(IO80211Interface *interface, struct apple80211_txpower_data *txd) {
+    return kIOReturnError;
     txd->version = APPLE80211_VERSION;
     txd->txpower = 100;
     txd->txpower_unit = APPLE80211_UNIT_PERCENT;
@@ -100,11 +100,11 @@ IOReturn Black80211Control::getBSSID(IO80211Interface *interface, struct apple80
 }
 
 static IOReturn scanAction(OSObject *target, void *arg0, void *arg1, void *arg2, void *arg3) {
-    IOSleep(1000);
+    IOSleep(200);
     IO80211Interface *iface = (IO80211Interface *)arg0;
     FakeDevice *dev = (FakeDevice*)arg1;
     iface->postMessage(APPLE80211_M_SCAN_DONE);
-    dev->setState(APPLE80211_S_INIT);
+    
     return 0;
 }
 
@@ -112,37 +112,27 @@ static IOReturn scanAction(OSObject *target, void *arg0, void *arg1, void *arg2,
 // MARK: 10 - SCAN_REQ
 //
 IOReturn Black80211Control::setSCAN_REQ(IO80211Interface *interface, struct apple80211_scan_data *sd) {
+    if (dev->state() == APPLE80211_S_SCAN) {
+        return kIOReturnBusy;
+    }
     dev->setState(APPLE80211_S_SCAN);
     IOLog("Black80211. Scan requested. Type: %u\n"
           "BSS Type: %u\n"
           "PHY Mode: %u\n"
           "Dwell time: %u\n"
           "Rest time: %u\n"
-          "Num channels: %u\n"
-          
-          ,
+          "Num channels: %u\n",
           sd->scan_type, sd->bss_type, sd->phy_mode, sd->dwell_time, sd->rest_time, sd->num_channels);
     
     
     if (interface) {
-        
         dev->setPublished(false);
         fCommandGate->runAction(scanAction, interface, dev);
-        
-//        interface->postMessage(APPLE80211_M_SCAN_DONE);
 //
     }
     
     return kIOReturnSuccess;
 }
-
-
-
-struct ieee80211_info_element {
-    u_int8_t info_elemid;
-    u_int8_t info_length;
-    u_int8_t* info[0];
-} __attribute__((__packed__));
 
 //
 // MARK: 11 - SCAN_RESULT
@@ -150,6 +140,7 @@ struct ieee80211_info_element {
 IOReturn Black80211Control::getSCAN_RESULT(IO80211Interface *interface, struct apple80211_scan_result **sr) {
     
     if (dev->published()) {
+        dev->setState(APPLE80211_S_INIT);
         return 0xe0820446;
     }
     
@@ -185,7 +176,7 @@ IOReturn Black80211Control::getSCAN_RESULT(IO80211Interface *interface, struct a
     result->asr_channel.flags = APPLE80211_C_FLAG_2GHZ | APPLE80211_C_FLAG_20MHZ | APPLE80211_C_FLAG_ACTIVE;
     
     result->asr_noise = -101;
-    result->asr_snr = 60;
+//    result->asr_snr = 60;
     result->asr_rssi = -73;
     result->asr_beacon_int = 100;
     
@@ -195,30 +186,16 @@ IOReturn Black80211Control::getSCAN_RESULT(IO80211Interface *interface, struct a
     
     
     
-    result->asr_bssid[0] = 0x64;
+    result->asr_bssid[0] = 0x65;
     result->asr_bssid[1] = 0x7c;
     result->asr_bssid[2] = 0x34;
     result->asr_bssid[3] = 0x5c;
     result->asr_bssid[4] = 0x1c;
     result->asr_bssid[5] = 0x40;
     
-    result->asr_nrates = 15;
-    result->asr_nr_unk = 15;
-    result->asr_rates[0] = 10;
-    result->asr_rates[1] = 10;
-    result->asr_rates[2] = 10;
-    result->asr_rates[3] = 10;
-    result->asr_rates[4] = 10;
-    result->asr_rates[5] = 10;
-    result->asr_rates[6] = 10;
-    result->asr_rates[7] = 10;
-    result->asr_rates[8] = 10;
-    result->asr_rates[9] = 10;
-    result->asr_rates[10] = 10;
-    result->asr_rates[11] = 10;
-    result->asr_rates[12] = 10;
-    result->asr_rates[13] = 10;
-    result->asr_rates[14] = 10;
+    result->asr_nrates = 1;
+    result->asr_nr_unk = 1;
+    result->asr_rates[0] = 54;
     
     strncpy((char*)result->asr_ssid, "UPC5424297", sizeof(result->asr_ssid));
     result->asr_ssid_len = strlen("UPC5424297");
@@ -227,10 +204,10 @@ IOReturn Black80211Control::getSCAN_RESULT(IO80211Interface *interface, struct a
 //    result->unk2 = 100;
 
     
-//    result->asr_ie_len = 250;
-//    result->asr_ie_data = IOMalloc(250);
-////    bzero(result->asr_ie_data, result->asr_ie_len);
-//    memcpy(result->asr_ie_data, beacon, 250);
+    result->asr_ie_len = 250;
+    result->asr_ie_data = IOMalloc(250);
+//    bzero(result->asr_ie_data, result->asr_ie_len);
+    memcpy(result->asr_ie_data, beacon, 250);
     
 
     
@@ -266,6 +243,7 @@ IOReturn Black80211Control::getSTATE(IO80211Interface *interface, struct apple80
 }
 
 IOReturn Black80211Control::setSTATE(IO80211Interface *interface, struct apple80211_state_data *sd) {
+    IOLog("Black82011: Setting state: %u", sd->state);
     dev->setState(sd->state);
     return kIOReturnSuccess;
 }
@@ -337,9 +315,6 @@ IOReturn Black80211Control::getINT_MIT(IO80211Interface* interface, struct apple
 //
 
 IOReturn Black80211Control::getPOWER(IO80211Interface *interface, struct apple80211_power_data *pd) {
-    if (!pd) {
-        return kIOReturnSuccess;
-    }
     pd->version = APPLE80211_VERSION;
     pd->num_radios = 1;
     pd->power_state[0] = dev->powerState();
@@ -350,9 +325,6 @@ IOReturn Black80211Control::getPOWER(IO80211Interface *interface, struct apple80
 }
 
 IOReturn Black80211Control::setPOWER(IO80211Interface *interface, struct apple80211_power_data *pd) {
-    if (!pd) {
-        return kIOReturnSuccess;
-    }
     if (pd->num_radios > 0) {
         dev->setPowerState(pd->power_state[0]);
     }
@@ -366,6 +338,7 @@ IOReturn Black80211Control::setPOWER(IO80211Interface *interface, struct apple80
 
 IOReturn Black80211Control::setASSOCIATE(IO80211Interface *interface,struct apple80211_assoc_data *ad)
 {
+    return kIOReturnError;
     IOLog("setASSOCIATE \n");
     
     
@@ -397,9 +370,6 @@ IOReturn Black80211Control::getSUPPORTED_CHANNELS(IO80211Interface *interface, s
 //
 
 IOReturn Black80211Control::getLOCALE(IO80211Interface *interface, struct apple80211_locale_data *ld) {
-    if (!ld) {
-        return kIOReturnSuccess;
-    }
     ld->version = APPLE80211_VERSION;
     ld->locale  = APPLE80211_LOCALE_FCC;
     
